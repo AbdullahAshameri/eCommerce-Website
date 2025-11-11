@@ -1,0 +1,15 @@
+Simple analysis
+Pages & Features
+
+- Settings
+- Dashboard
+- Statistics
+- Log
+- Users
+- Comments
+- 
+
+fo cearch-
+-How to orgnize php project struture
+-How to orgnize YOUR project struture
+-How to orgnize LARAVEL project struture
