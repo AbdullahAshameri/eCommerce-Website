@@ -1,7 +1,10 @@
 <?php
+    session_start();
+    $noNavbar = '';
+    if(isset($_SESSION['Username'])){
+        header('Location: dashboard.php'); // Redirect to Dashboard Page
+    }
     include 'init.php';
-    include $tpl . 'header.php';
-    include 'includes/languages/englesh.php';
 
     // Check if the Request Coming From POST Request
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -15,8 +18,11 @@
         $stmt->execute(array($username, $hashedPass));
         $count = $stmt->rowCount();
         
+        // If Count > 0 This Meane The Database Contain Record About This Username
         if($count > 0) {
-            echo "Wellcom " . $username;
+            $_SESSION['Username'] = $username; // Request Session Name
+            header('location: dashboard.php'); // Redirect to Dashboard Page
+            exit();
         }
     }
 

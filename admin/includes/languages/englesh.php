@@ -4,11 +4,13 @@
 
         static $lang = array(
 
-             // Homepage
-            'MESSAGE' => 'Wellcom',
-            'ADMIN' => 'Administrato'
-
-            // Setings
+             // Navbar Linksk
+             'HOME_ADMIN'   => 'Home',
+             'CATEGORIES'   => 'Categories',
+             'ITEMS'        => 'Items',
+             'MEMBERS'      => 'Members',
+             'STATISTICS'   => 'Statistics',
+             'LOGS'         => 'Logs',
         );
         
         return $lang[$phrase];
