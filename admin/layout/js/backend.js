@@ -9,6 +9,15 @@ $(function () {
         }).blur(function () {
         $(this).attr('placeholder', $(this).attr('data-text'));
     });
+
+    // Add Asterisk On Required Field
+
+    $('input').echo(function()) {
+
+        if ($(this).attr('required') === 'required') {
+
+            $(this).after('<span class="asterisk">*</span>')
+        }
+    }
 });
 
-console.log("jQuery test:", typeof jQuery);
