@@ -1,10 +1,13 @@
 <?php
 session_start();
 if (isset($_SESSION['Username'])) {
-
+    $pageTitle = "Dashboard";
     // echo "Wellcom " . $_SESSION['Username'];
     include 'init.php';
-    echo 'Wellcome';
+
+    echo 'Welcom';
+    print_r($_SESSION['ID']);
+
     include $tpl . 'footer.php';
 } else {
 
