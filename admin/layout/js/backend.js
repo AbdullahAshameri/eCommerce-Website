@@ -1,23 +1,37 @@
-$(function () {
+(function () {
     'use strict';
 
-    // Hid Placeholder On Form Focus
-
-    $('[placeholder]').focus(function () {
-        $(this).attr('data-text', $(this).attr('placeholder'));
-        $(this).attr('placeholder', '');
-        }).blur(function () {
-        $(this).attr('placeholder', $(this).attr('data-text'));
-    });
-
-    // Add Asterisk On Required Field
-
-    $('input').echo(function()) {
-
-        if ($(this).attr('required') === 'required') {
-
-            $(this).after('<span class="asterisk">*</span>')
-        }
+    // Wait for jQuery to be loaded
+    if (typeof jQuery === 'undefined') {
+        console.error('jQuery is not loaded! Please check if jQuery file is loaded correctly.');
+        return;
     }
-});
+
+    // Use jQuery ready function
+    jQuery(document).ready(function ($) {
+        console.log('Backend.js loaded successfully');
+
+        // Hid Placeholder On Form Focus
+        var placeholderInputs = $('[placeholder]');
+        if (placeholderInputs.length > 0) {
+            placeholderInputs.focus(function () {
+                $(this).attr('data-text', $(this).attr('placeholder'));
+                $(this).attr('placeholder', '');
+            }).blur(function () {
+                $(this).attr('placeholder', $(this).attr('data-text'));
+            });
+            console.log('Placeholder handler attached to ' + placeholderInputs.length + ' input(s)');
+        }
+
+        // Add Asterisk On Required Field
+        var requiredInputs = $('input[required="required"]');
+        requiredInputs.each(function () {
+            // Check if asterisk already exists to avoid duplicates
+            if ($(this).next('.asterisk').length === 0) {
+                $(this).after('<span class="asterisk">*</span>');
+            }
+        });
+        console.log('Asterisk added to ' + requiredInputs.length + ' required input(s)');
+    });
+})();
 

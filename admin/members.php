@@ -19,6 +19,63 @@ if (isset($_SESSION['Username'])) {
 
     if ($do == 'Manage') {
         // Get Manage Page
+        echo 'Welcom To Manage Members Page<br>';
+
+        echo '<a href="members.php?do=Add">Add New Member</a>';
+    } elseif ($do == 'Add') {  // Add Member Page 
+?>
+        <h1 class="text-center">Add New Member</h1>
+        <div class="container">
+            <form class="form-horizontal" action="?do=Insert" method="POST">
+                <!-- Starat Username Field -->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Username</label>
+                    <div class="col-sm-10 col-md-5">
+                        <input type="text" name="username" class="form-control" autocomplete="off" required="required" placeholder="Username To Login Into Shop" />
+                    </div>
+                </div>
+                <!-- End Username Field -->
+                <!-- Starat Password Field -->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-10 col-md-5">
+                        <input type="password" name="password" class="form-control" autocomplete="new-password" required="required" placeholder="Password Must Be Hard & Complex" />
+                    </div>
+                </div>
+                <!-- End Password Field -->
+                <!-- Starat Email Field -->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10 col-md-5">
+                        <input type="email" name="email" class="form-control" required="required" placeholder="Email Must Be Valid" />
+                    </div>
+                </div>
+                <!-- End Email Field -->
+                <!-- Starat Full Name Field -->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Full Name</label>
+                    <div class="col-sm-10 col-md-5">
+                        <input type="text" name="full" class="form-control" required="required" placeholder="Full Name Apper In Your Page" />
+                    </div>
+                </div>
+                <!-- End Full Name Field -->
+                <!-- Starat Submit Field -->
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="submit" value="Add Member" class="btn btn-primary btn-lg" />
+                    </div>
+                </div>
+                <!-- End Submit Field -->
+            </form>
+        </div>
+
+<?php
+    } elseif ($do == 'Insert') {
+
+        // Insert Member Page
+        echo $_POST['username'] . $_POST['password'] . $_POST['email'] . $_POST['full'];
+    
+        
     } elseif ($do == 'Edit') { // Get Edit Page 
 
         // Check if Get Request userid Is Numeric & Get The Integer Value Of It
@@ -56,7 +113,7 @@ if (isset($_SESSION['Username'])) {
                         <label class="col-sm-2 control-label">Password</label>
                         <div class="col-sm-10 col-md-5">
                             <input type="hidden" name="oldpassword" value="<?php echo $row['Password']; ?>" />
-                            <input type="password" name="newpassword" class="form-control" autocomplete="new-password" />
+                            <input type="password" name="newpassword" class="form-control" autocomplete="new-password" placeholder="Leave Blank If You Dont Want To Change" />
                         </div>
                     </div>
                     <!-- End Password Field -->

@@ -5,6 +5,29 @@ body {
     font-size: 16px;
 }
 
+.asterisk {
+    font-size: 30px;
+    position: absolute;
+    right: 30px;
+    top: 8px;
+    color: #d81616;
+}
+
+/* .asterisk { */
+    /* position: absolute;
+    right: 12px; */
+    /* مسافة من اليمين داخل العمود */
+    /* top: 50%; */
+    /* منتصف الحقل عموديًا */
+    /* transform: translateY(-50%);
+    color: #e74c3c;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    pointer-events: none; */
+    /* حتى لا يتداخل مع النقر على الحقل */
+/* } */
+
 /* End Main Rules */
 
 /* Start Login Form */
@@ -67,6 +90,10 @@ body {
     color: #FFF;
     padding: 10px 15px;
     border-radius: 15px;
+}
+
+.form-group .col-sm-10 {
+    position: relative;
 }
 /* End Bootstrap Edits */
 
