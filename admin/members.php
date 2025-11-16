@@ -30,7 +30,7 @@ if (isset($_SESSION['Username'])) {
                 <!-- Starat Username Field -->
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Username</label>
-                    <div class="col-sm-10 col-md-5">
+                    <div class="col-sm-10 col-md-6">
                         <input type="text" name="username" class="form-control" autocomplete="off" required="required" placeholder="Username To Login Into Shop" />
                     </div>
                 </div>
@@ -38,15 +38,16 @@ if (isset($_SESSION['Username'])) {
                 <!-- Starat Password Field -->
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Password</label>
-                    <div class="col-sm-10 col-md-5">
-                        <input type="password" name="password" class="form-control" autocomplete="new-password" required="required" placeholder="Password Must Be Hard & Complex" />
+                    <div class="col-sm-10 col-md-6 password-box">
+                        <input type="password" name="password" class="password form-control" autocomplete="new-password" required="required" placeholder="Password Must Be Hard & Complex" />
+                        <i class="show-pass fa fa-eye"></i>
                     </div>
                 </div>
                 <!-- End Password Field -->
                 <!-- Starat Email Field -->
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Email</label>
-                    <div class="col-sm-10 col-md-5">
+                    <div class="col-sm-10 col-md-6">
                         <input type="email" name="email" class="form-control" required="required" placeholder="Email Must Be Valid" />
                     </div>
                 </div>
@@ -54,7 +55,7 @@ if (isset($_SESSION['Username'])) {
                 <!-- Starat Full Name Field -->
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Full Name</label>
-                    <div class="col-sm-10 col-md-5">
+                    <div class="col-sm-10 col-md-6">
                         <input type="text" name="full" class="form-control" required="required" placeholder="Full Name Apper In Your Page" />
                     </div>
                 </div>
@@ -69,13 +70,84 @@ if (isset($_SESSION['Username'])) {
             </form>
         </div>
 
-<?php
+        <?php
     } elseif ($do == 'Insert') {
 
         // Insert Member Page
-        echo $_POST['username'] . $_POST['password'] . $_POST['email'] . $_POST['full'];
-    
-        
+
+        // $pass = '';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            echo "<h1 class='text-center'>Update Member</h1>";
+            echo "<div class='container'>";
+            // Get The Variable From The Form
+            $user   = $_POST['username'];
+            $pass   = sha1($_POST['password']);
+            $email  = $_POST['email'];
+            $name   = $_POST['full'];
+
+            $hashPass = sha1($_POST['password']);
+
+            // Validate The Form
+            $formErrors = array();
+            if (strlen($user) < 4) {
+
+                $formErrors[] = 'Username Cant Be Less Than <strong>4 Char</strong>';
+            }
+
+            if (strlen($user) > 20) {
+
+                $formErrors[] = 'Username Cant Be <strong>More Than 20 Char</strong>';
+            }
+            if (strlen($pass) < 20) {
+
+                $formErrors[] = 'Password Cant Be More Than <strong>20 Char</strong>';
+            }
+
+            if (empty($user)) {
+
+                $formErrors[] = 'Username cant Be <strong>Empty</strong>';
+            }
+
+            if (empty($name)) {
+
+                $formErrors[] = 'Full Name Cant be <strong>Empty</strong>';
+            }
+
+            if (empty($email)) {
+
+                $formErrors[] = 'Email Cant Be <strong>Empty</strong>';
+            }
+
+            // Loop Into Error Array And Echo It
+            foreach ($formErrors as $errors) {
+                echo '<div class="alert alert-danger">' . $errors . '</div> <br>';
+            }
+
+            // Update The Database Whith This info Update Operation
+            if (empty($formErrors)) {
+
+                // Insert User Inf In Database
+
+                $stmt = $con->prepare("INSERT INTO 
+                                        users(Username, Password, Email, FullName)
+                                    VALUES
+                                        (:zuser, :zpass, :zemail, :zname)");
+                $stmt->execute(array(
+                    'zuser'    => $user,
+                    'zpass'    => $hashPass,
+                    'zemail'   => $email,
+                    'zname'    => $name,
+
+                ));
+
+                // Echo Seccess Message
+                echo "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Iserted </div>';
+            }
+        } else {
+            echo '<div class="alert alert-danger">Sorry You Cant <strong>Browse</strong> This Page Directry';
+        }
+        echo "</div>";
     } elseif ($do == 'Edit') { // Get Edit Page 
 
         // Check if Get Request userid Is Numeric & Get The Integer Value Of It
@@ -103,7 +175,7 @@ if (isset($_SESSION['Username'])) {
                     <!-- Starat Username Field -->
                     <div class="form-group form-group-lg">
                         <label class="col-sm-2 control-label">Username</label>
-                        <div class="col-sm-10 col-md-5">
+                        <div class="col-sm-10 col-md-6">
                             <input type="text" name="username" class="form-control" autocomplete="off" value="<?php echo $row['Username'] ?>" required="required" />
                         </div>
                     </div>
@@ -111,7 +183,7 @@ if (isset($_SESSION['Username'])) {
                     <!-- Starat Password Field -->
                     <div class="form-group form-group-lg">
                         <label class="col-sm-2 control-label">Password</label>
-                        <div class="col-sm-10 col-md-5">
+                        <div class="col-sm-10 col-md-6">
                             <input type="hidden" name="oldpassword" value="<?php echo $row['Password']; ?>" />
                             <input type="password" name="newpassword" class="form-control" autocomplete="new-password" placeholder="Leave Blank If You Dont Want To Change" />
                         </div>
@@ -120,7 +192,7 @@ if (isset($_SESSION['Username'])) {
                     <!-- Starat Email Field -->
                     <div class="form-group form-group-lg">
                         <label class="col-sm-2 control-label">Email</label>
-                        <div class="col-sm-10 col-md-5">
+                        <div class="col-sm-10 col-md-6">
                             <input type="email" name="email" class="form-control" value="<?php echo $row['Email'] ?>" required="required" />
                         </div>
                     </div>
@@ -128,7 +200,7 @@ if (isset($_SESSION['Username'])) {
                     <!-- Starat Full Name Field -->
                     <div class="form-group form-group-lg">
                         <label class="col-sm-2 control-label">Full Name</label>
-                        <div class="col-sm-10 col-md-5">
+                        <div class="col-sm-10 col-md-6">
                             <input type="text" name="full" value="<?php echo $row['FullName'] ?>" class="form-control" required="required" />
                         </div>
                     </div>
@@ -170,32 +242,32 @@ if (isset($_SESSION['Username'])) {
             $formErrors = array();
             if (strlen($user) < 4) {
 
-                $formErrors[] = '<div class="alert alert-danger">Username Cant Be Less Than <strong>4 Char</strong></div>';
+                $formErrors[] = 'Username Cant Be Less Than <strong>4 Char</strong>';
             }
 
             if (strlen($user) > 20) {
 
-                $formErrors[] = '<div class="alert alert-danger">Username Cant Be More Than <strong>20 Char</strong></dive>';
+                $formErrors[] = 'Username Cant Be More Than <strong>20 Char</strong>';
             }
 
             if (empty($user)) {
 
-                $formErrors[] = '<div class="alert alert-dander">Username cant Be <strong>Empty</strong></div>';
+                $formErrors[] = 'Username cant Be <strong>Empty</strong>';
             }
 
             if (empty($name)) {
 
-                $formErrors[] = '<div class="alert alert-danger">Full Name Cant be <strong>Empty</strong></div>';
+                $formErrors[] = 'Full Name Cant be <strong>Empty</strong>';
             }
 
             if (empty($email)) {
 
-                $formErrors[] = '<div class="alert alert-danger">Email Cant Be <strong>Empty</strong></div>';
+                $formErrors[] = 'Email Cant Be <strong>Empty</strong>';
             }
 
             // Loop Into Error Array And Echo It
             foreach ($formErrors as $errors) {
-                echo $errors . '<br>';
+                echo '<div class="alert alert-danger>"' . $errors . '</div> <br>';
             }
 
             // Update The Database Whith This info Update Operation

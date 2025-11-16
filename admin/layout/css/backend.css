@@ -13,25 +13,6 @@ body {
     color: #d81616;
 }
 
-/* .asterisk { */
-    /* position: absolute;
-    right: 12px; */
-    /* مسافة من اليمين داخل العمود */
-    /* top: 50%; */
-    /* منتصف الحقل عموديًا */
-    /* transform: translateY(-50%);
-    color: #e74c3c;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1;
-    pointer-events: none; */
-    /* حتى لا يتداخل مع النقر على الحقل */
-/* } */
-
-/* End Main Rules */
-
-/* Start Login Form */
-
 .login {
     width: 300px;
     margin: 100px auto;
@@ -105,5 +86,11 @@ body {
         font-weight: bold;
         color: #888;
     }
+
+.show-pass {
+    position: absolute;
+    top: 15px;
+    right: -20px;
+}
 
 /* End Members Page*/

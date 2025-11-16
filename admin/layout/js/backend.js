@@ -32,6 +32,21 @@
             }
         });
         console.log('Asterisk added to ' + requiredInputs.length + ' required input(s)');
+
+        // Convert Password Field To Text Field On Hover
+        $('.show-pass').hover(function () {
+            // Find the password field in the same container (sibling)
+            var passField = $(this).siblings('.password');
+            if (passField.length > 0) {
+                passField.attr('type', 'text');
+            }
+        }, function () {
+            // Find the password field in the same container (sibling)
+            var passField = $(this).siblings('.password');
+            if (passField.length > 0) {
+                passField.attr('type', 'password');
+            }
+        });
+        console.log('Password show/hide handler attached to ' + $('.show-pass').length + ' icon(s)');
     });
 })();
-
