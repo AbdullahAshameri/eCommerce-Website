@@ -93,4 +93,9 @@ body {
     right: -20px;
 }
 
+.main-table tr:first-child td { /* You Can Use Thead  */
+    background-color: #333;
+    color: #FFF;
+}
+
 /* End Members Page*/
