@@ -49,4 +49,9 @@
         });
         console.log('Password show/hide handler attached to ' + $('.show-pass').length + ' icon(s)');
     });
+
+    // Confirmation Message On Button
+    $('.confirm').click( function () {
+        return confirm('Are You Sure?');
+    });
 })();

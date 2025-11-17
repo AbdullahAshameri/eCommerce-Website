@@ -50,7 +50,7 @@ if (isset($_SESSION['Username'])) {
                         echo "<td>" . "</td>";
                         echo "<td>
                                 <a href='members.php?do=Edit&userid=" . $row['UserID'] . "' class='btn btn-success'>Edit</a>
-                                <a href='#' class='btn btn-danger'>Delete</a>
+                                <a href='members.php?do=Delete&userid=" . $row['UserID'] . "' class='btn btn-danger confirm'>Delete</a>
                             </td>";
                         echo "</tr>";
                     }
@@ -323,6 +323,40 @@ if (isset($_SESSION['Username'])) {
             echo '<div class="alert alert-danger">Sorry You Cant <strong>Browse</strong> This Page Directry';
         }
         echo "</div>";
+    } elseif ($do == 'Delete') { // Delete Member Page
+
+        echo "<h1 class='text-center'>Delete Member</h1>";
+        echo "<div class='container'>";
+
+            // Check if Get Request userid Is Numeric & Get The Integer Value Of It
+
+            $userid = isset($_GET['userid']) && is_numeric($_GET['userid']) ? intval($_GET['userid']) : 0;
+
+            //Select All Data Depend In This ID
+            $stmt = $con->prepare("SELECT * FROM users WHERE UserID = ? LIMIT 1");
+
+            // Execute
+            $stmt->execute(array($userid));
+
+            // The Row Count
+            $count = $stmt->rowCount();
+
+            // If There is Such Id Show The Form
+            if ($stmt->rowCount() > 0) {
+
+                $stmt = $con->prepare("DELETE FROM users WHERE UserID = :zuser");
+
+                $stmt->bindParam(":zuser", $userid);
+
+                $stmt->execute();
+
+                echo "<div class='alert alert-success'>" . $stmt->rowCount() .'Rrcord Deleted </div>';
+
+            } else {
+                echo 'This ID is Not Exist';
+            }
+            
+        echo '</div>';
     }
 
     include $tpl . 'footer.php';
