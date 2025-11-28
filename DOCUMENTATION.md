@@ -2,3 +2,6 @@
 - Tf no $noNavbar well Incloud Navbare On All PAges Expect The One With $noNavbar Virable
 - if(!isset($noNavbar)) { include $tpl . 'navbar.php'; }
 
+    ** Home Redirect Function [ This Function Accept Paramaters ]
+    ** $errorMsg = Echo The Error Message
+    ** $seconds = Seconds Before Redirecting

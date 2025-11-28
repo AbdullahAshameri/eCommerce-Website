@@ -184,7 +184,8 @@ if (isset($_SESSION['Username'])) {
                 echo "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Iserted </div>';
             }
         } else {
-            echo '<div class="alert alert-danger">Sorry You Cant <strong>Browse</strong> This Page Directry';
+            $errorMsg = 'Sorry You Cant Browse This Page Directry';
+            redirectHome($errorMsg, 6);
         }
         echo "</div>";
     } elseif ($do == 'Edit') { // Get Edit Page 
