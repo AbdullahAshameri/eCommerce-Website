@@ -93,9 +93,27 @@ body {
     right: -20px;
 }
 
+/* .main-table {
+    border-radius: 25px;
+} */
+
+.main-table {
+    box-shadow: 0 3px 10px #CCC;
+    -moz-box-shadow: 0 3px 10px #CCC;
+    -webkit-box-shadow: 0 3px 10px #CCC;
+    /* للمتصفحات القديمة */
+}
+.main-table td {
+    background-color: #FFF;
+    vertical-align: middle !important;
+}
 .main-table tr:first-child td { /* You Can Use Thead  */
     background-color: #333;
     color: #FFF;
+}
+
+.main-table .btn {
+    padding: 3px 10px;
 }
 
 /* End Members Page*/
