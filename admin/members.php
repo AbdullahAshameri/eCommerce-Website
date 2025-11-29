@@ -166,22 +166,32 @@ if (isset($_SESSION['Username'])) {
             // Update The Database Whith This info Update Operation
             if (empty($formErrors)) {
 
-                // Insert User Inf In Database
+                // Check If User Exist in Database
+                $check = checkItem("Username", "users", $user);
+                
+                if($check == 1) {
 
-                $stmt = $con->prepare("INSERT INTO 
+                    echo 'Sorry This User Is Exist';
+
+                } else {
+
+                // Insert User Inf In Database
+                    $stmt = $con->prepare("INSERT INTO 
                                         users(Username, Password, Email, FullName)
                                     VALUES
                                         (:zuser, :zpass, :zemail, :zname)");
-                $stmt->execute(array(
-                    'zuser'    => $user,
-                    'zpass'    => $hashPass,
-                    'zemail'   => $email,
-                    'zname'    => $name,
+                    $stmt->execute(array(
+                        'zuser'    => $user,
+                        'zpass'    => $hashPass,
+                        'zemail'   => $email,
+                        'zname'    => $name,
 
-                ));
+                    ));
 
-                // Echo Seccess Message
-                echo "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Iserted </div>';
+                    // Echo Seccess Message
+                    echo "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Iserted </div>';
+                }
+
             }
         } else {
             $errorMsg = 'Sorry You Cant Browse This Page Directry';
