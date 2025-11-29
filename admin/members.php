@@ -171,7 +171,9 @@ if (isset($_SESSION['Username'])) {
                 
                 if($check == 1) {
 
-                    echo 'Sorry This User Is Exist';
+                    $theMsg = '<div class="alert alert-danger">Sorry This User Is Exist</div>';
+
+                    redirectHome($theMsg, 'back');
 
                 } else {
 
@@ -356,7 +358,9 @@ if (isset($_SESSION['Username'])) {
 
             echo "</div>";
         }
+        
         echo "</div>";
+
     } elseif ($do == 'Delete') { // Delete Member Page
 
         echo "<h1 class='text-center'>Delete Member</h1>";
@@ -367,16 +371,11 @@ if (isset($_SESSION['Username'])) {
             $userid = isset($_GET['userid']) && is_numeric($_GET['userid']) ? intval($_GET['userid']) : 0;
 
             //Select All Data Depend In This ID
-            $stmt = $con->prepare("SELECT * FROM users WHERE UserID = ? LIMIT 1");
 
-            // Execute
-            $stmt->execute(array($userid));
-
-            // The Row Count
-            $count = $stmt->rowCount();
+            $check = checkItem('userid', 'users', $userid);
 
             // If There is Such Id Show The Form
-            if ($stmt->rowCount() > 0) {
+            if ($check > 0) {
 
                 $stmt = $con->prepare("DELETE FROM users WHERE UserID = :zuser");
 
