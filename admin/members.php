@@ -189,13 +189,22 @@ if (isset($_SESSION['Username'])) {
                     ));
 
                     // Echo Seccess Message
-                    echo "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Iserted </div>';
+                    $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Iserted </div>';
+
+                    redirectHome($theMsg, 'back');
                 }
 
             }
+
         } else {
-            $errorMsg = 'Sorry You Cant Browse This Page Directry';
-            redirectHome($errorMsg, 6);
+
+            echo "<div class='container'>";
+
+            $theMsg = '<div class="alert alert-danger">Sorry You Cant Browse This Page Directrly</div>';
+            redirectHome($theMsg, 'back', 3);
+
+            echo "</div>";
+
         }
         echo "</div>";
     } elseif ($do == 'Edit') { // Get Edit Page 
@@ -269,7 +278,14 @@ if (isset($_SESSION['Username'])) {
 <?php
             // If There's No Such ID Show Error Message
         } else {
-            echo 'There is No Such ID';
+
+            echo "<div class='container'>";
+            $theMsg = '<div class="alert alert-danger"> There is No Such ID </div>';
+
+            redirectHome($theMsg);
+
+            echo "<</div>";
+
         }
     } elseif ($do == 'Update') { // Update page
 
@@ -328,10 +344,17 @@ if (isset($_SESSION['Username'])) {
                 $stmt->execute(array($user, $email, $name, $pass, $id));
 
                 // Echo Seccess Message
-                echo "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Updated </div>';
+                $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Updated </div>';
+
+                redirectHome($theMsg, 'back', 3);
             }
         } else {
-            echo '<div class="alert alert-danger">Sorry You Cant <strong>Browse</strong> This Page Directry';
+            echo "<div class='continer'>";
+
+            $theMsg = '<div class="alert alert-danger">Sorry You Cant <strong>Browse</strong> This Page Directry';
+            redirectHome($theMsg, 'back');
+
+            echo "</div>";
         }
         echo "</div>";
     } elseif ($do == 'Delete') { // Delete Member Page
@@ -361,10 +384,13 @@ if (isset($_SESSION['Username'])) {
 
                 $stmt->execute();
 
-                echo "<div class='alert alert-success'>" . $stmt->rowCount() .'Rrcord Deleted </div>';
-
+                $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() .'Rrcord Deleted </div>';
+                redirectHome($theMsg);
             } else {
-                echo 'This ID is Not Exist';
+
+                $theMsg = '<div class="alert alert-danger"This ID is Not Exist</div>';
+                redirectHome($theMsg);
+    
             }
             
         echo '</div>';
