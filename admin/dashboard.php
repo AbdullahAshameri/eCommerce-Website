@@ -1,12 +1,77 @@
 <?php
 session_start();
 if (isset($_SESSION['Username'])) {
+
     $pageTitle = "Dashboard";
-    // echo "Wellcom " . $_SESSION['Username'];
+
     include 'init.php';
 
-    echo 'Welcom';
-    print_r($_SESSION['ID']);
+    // Start Dashboard page
+?>
+    <div class="home-stats">
+        <div class="container text-center">
+            <h1>Dashboard</h1>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="stat">
+                        Total Members
+                        <span>200</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat">
+                        Pending Members
+                        <span>50</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat">
+                        Total Items
+                        <span>60</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat">
+                        Total Coments
+                        <span>70</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="latest">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-users">
+                            </i>Latest Registerd Users
+                        </div>
+                        <div class="panel-body">
+                            test
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-tag"></i>Latest Items
+                        </div>
+
+                        <div class="panel-body">
+                            test
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<?php
+    // End Dashboard Page
+
+    // print_r($_SESSION['ID']);
 
     include $tpl . 'footer.php';
 } else {

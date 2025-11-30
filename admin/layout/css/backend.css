@@ -78,6 +78,26 @@ body {
 }
 /* End Bootstrap Edits */
 
+/* Start Dashboard Page*/
+
+.home-stats .stat {
+    background-color: #EEE;
+    border: 1px solid #CCC;
+    padding: 20px;
+    font-size: 15px;
+    border-radius: 20px;
+}
+
+.home-stats .stat span {
+    display: block;
+    font-size: 50px;
+}
+
+.latest {
+    margin-top: 30px;
+}
+/* End Dashboard Page*/
+
 /* Start Members Page*/
 
     h1 {
