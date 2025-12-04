@@ -81,11 +81,18 @@ body {
 /* Start Dashboard Page*/
 
 .home-stats .stat {
-    background-color: #EEE;
     padding: 20px;
     font-size: 15px;
     border-radius: 20px;
     color: #FFF;
+}
+
+.home-stats .stat a {
+    color: #FFF;
+}
+
+.home-stats .stat a:hover {
+    text-decoration: none;
 }
 
 .home-stats .st-members {

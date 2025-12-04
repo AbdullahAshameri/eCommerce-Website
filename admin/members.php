@@ -177,11 +177,11 @@ if (isset($_SESSION['Username'])) {
 
                 } else {
 
-                // Insert User Inf In Database
+                // Insert User Info In Database
                     $stmt = $con->prepare("INSERT INTO 
-                                        users(Username, Password, Email, FullName, Date)
+                                        users(Username, Password, Email, FullName, RegStatus, Date)
                                     VALUES
-                                        (:zuser, :zpass, :zemail, :zname, now())");
+                                        (:zuser, :zpass, :zemail, :zname, 1, now())"); // Any User Inserted By Admain RegStatus Tack 1 
                     $stmt->execute(array(
                         'zuser'    => $user,
                         'zpass'    => $hashPass,
