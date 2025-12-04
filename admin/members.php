@@ -19,8 +19,15 @@ if (isset($_SESSION['Username'])) {
 
     if ($do == 'Manage') { // Get Manage Page 
 
+        $query = '';
+
+        if (isset($_GET['page']) == 'pending') {
+
+            $query = 'AND RegStatus = 0';
+        }
+
         // Select All Users Except Admin
-        $stmt = $con->prepare("SELECT * FROM users WHERE GroupID != 1");
+        $stmt = $con->prepare("SELECT * FROM users WHERE GroupID != 1 $query");
 
         // Execute The Statment
         $stmt->execute();
@@ -50,8 +57,15 @@ if (isset($_SESSION['Username'])) {
                         echo "<td>" . $row['Date'] . "</td>";
                         echo "<td>
                                 <a href='members.php?do=Edit&userid=" . $row['UserID'] . "' class='btn btn-success'><i class='fa fa-edit'></i>Edit</a>
-                                <a href='members.php?do=Delete&userid=" . $row['UserID'] . "' class='btn btn-danger confirm'><i class='fa  fa-close'></i>Delete</a>
-                            </td>";
+                                <a href='members.php?do=Delete&userid=" . $row['UserID'] . "' class='btn btn-danger confirm'><i class='fa  fa-close'></i>Delete</a>";
+
+                                if ($row['RegStatus'] == 0) {
+                                    
+                                    echo " <a href='members.php?do=Delete&userid=" . $row['UserID'] . "' class='btn btn-info'><i class='fa  fa-close'></i>Activate</a>";
+
+                                }
+
+                            echo "</td>";
                         echo "</tr>";
                     }
                     ?>

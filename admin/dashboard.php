@@ -21,7 +21,7 @@ if (isset($_SESSION['Username'])) {
                 <div class="col-md-3">
                     <div class="stat st-pending">
                         Pending Members
-                        <span>50</span>
+                        <span><a href="members.php?do=Manage&page=Pending">50</a></span>
                     </div>
                 </div>
                 <div class="col-md-3">
