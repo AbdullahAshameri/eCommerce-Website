@@ -13,25 +13,25 @@ if (isset($_SESSION['Username'])) {
             <h1>Dashboard</h1>
             <div class="row">
                 <div class="col-md-3">
-                    <div class="stat">
+                    <div class="stat st-members">
                         Total Members
-                        <span>200</span>
+                        <span><?php echo countItems('UserID', 'users') ?></span>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="stat">
+                    <div class="stat st-pending">
                         Pending Members
                         <span>50</span>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="stat">
+                    <div class="stat st-item">
                         Total Items
                         <span>60</span>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="stat">
+                    <div class="stat st-coments">
                         Total Coments
                         <span>70</span>
                     </div>

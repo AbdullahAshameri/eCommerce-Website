@@ -82,15 +82,31 @@ body {
 
 .home-stats .stat {
     background-color: #EEE;
-    border: 1px solid #CCC;
     padding: 20px;
     font-size: 15px;
     border-radius: 20px;
+    color: #FFF;
+}
+
+.home-stats .st-members {
+    background-color: #3498db;
+}
+
+.home-stats .st-pending {
+    background-color: #3498db;
+}
+
+.home-stats .st-item {
+    background-color: #3498db;
+}
+
+.home-stats .st-coments {
+    background-color: #3498db;
 }
 
 .home-stats .stat span {
     display: block;
-    font-size: 50px;
+    font-size: 60px;
 }
 
 .latest {
