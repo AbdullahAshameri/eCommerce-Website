@@ -7,6 +7,7 @@ if (isset($_SESSION['Username'])) {
     include 'init.php';
 
     // Start Dashboard page
+
 ?>
     <div class="home-stats">
         <div class="container text-center">
@@ -46,12 +47,21 @@ if (isset($_SESSION['Username'])) {
             <div class="row">
                 <div class="col-sm-6">
                     <div class="panel panel-default">
+                        <?php $latestUsers = 5; ?>
                         <div class="panel-heading">
                             <i class="fa fa-users">
-                            </i>Latest Registerd Users
+                            </i>Latest <?php echo $latestUsers ?>Registerd Users
                         </div>
                         <div class="panel-body">
-                            test
+                            <?php
+                                $theLatest = getLatest("*", "users", "UserID", $latestUsers);
+
+                                foreach ($theLatest as $user) {
+
+                                    echo $user['Username'] . '<br>';
+
+                                }
+                            ?>
                         </div>
                     </div>
                 </div>
