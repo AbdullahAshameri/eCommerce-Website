@@ -119,6 +119,14 @@ body {
 .latest {
     margin-top: 30px;
 }
+
+.panel-heading {
+    border-radius: 20px;
+}
+
+.panel-default {
+    border-radius: 20px;
+}
 /* End Dashboard Page*/
 
 /* Start Members Page*/

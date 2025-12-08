@@ -61,7 +61,7 @@ if (isset($_SESSION['Username'])) {
 
                                 if ($row['RegStatus'] == 0) {
                                     
-                                    echo " <a href='members.php?do=Delete&userid=" . $row['UserID'] . "' class='btn btn-info'><i class='fa  fa-close'></i>Activate</a>";
+                                    echo " <a href='members.php?do=Activate&userid=" . $row['UserID'] . "' class='btn btn-info'><i class='fa  fa-close'></i>Activate</a>";
 
                                 }
 
@@ -406,6 +406,35 @@ if (isset($_SESSION['Username'])) {
     
             }
             
+        echo '</div>';
+    } elseif ($do == 'Activate') {
+
+        echo "<h1 class='text-center'>Activate Member</h1>";
+        echo "<div class='container'>";
+
+        // Check if Get Request userid Is Numeric & Get The Integer Value Of It
+
+        $userid = isset($_GET['userid']) && is_numeric($_GET['userid']) ? intval($_GET['userid']) : 0;
+
+        //Select All Data Depend In This ID
+
+        $check = checkItem('userid', 'users', $userid);
+
+        // If There is Such Id Show The Form
+        if ($check > 0) {
+
+            $stmt = $con->prepare("UPDATE users SET RegStatus = 1 WHERE UserID = ?");
+
+            $stmt->execute(array($userid));
+
+            $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Rrcord Updated </div>';
+            redirectHome($theMsg);
+        } else {
+
+            $theMsg = '<div class="alert alert-danger"This ID is Not Exist</div>';
+            redirectHome($theMsg);
+        }
+
         echo '</div>';
     }
 
