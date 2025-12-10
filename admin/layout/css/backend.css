@@ -127,6 +127,28 @@ body {
 .panel-default {
     border-radius: 20px;
 }
+
+.latest-users {
+    margin-bottom: 0;
+}
+
+.latest-users li {
+    padding: 9px;
+    overflow: hidden;
+}
+
+.latest-users li:nth-child(odd) {
+    background-color: #EEE;
+}
+
+.latest-users .btn-success, 
+.latest-users .btn-info {
+    padding: 1px 8px;
+}
+
+.latest-users .btn-info {
+    margin-right: 5px;
+}
 /* End Dashboard Page*/
 
 /* Start Members Page*/

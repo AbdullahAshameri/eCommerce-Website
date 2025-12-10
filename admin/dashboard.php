@@ -7,6 +7,8 @@ if (isset($_SESSION['Username'])) {
     include 'init.php';
 
     // Start Dashboard page
+    // $theLatest = getLatest("*", "users", "UserID", $latestUsers);
+
 
 ?>
     <div class="home-stats">
@@ -53,15 +55,25 @@ if (isset($_SESSION['Username'])) {
                             </i>Latest <?php echo $latestUsers ?>Registerd Users
                         </div>
                         <div class="panel-body">
-                            <?php
-                                $theLatest = getLatest("*", "users", "UserID", $latestUsers);
+                            <ul class="list-unstyled latest-users">
+                                <?php
+                                    $theLatest = getLatest("*", "users", "UserID", $latestUsers);
 
-                                foreach ($theLatest as $user) {
+                                    foreach ($theLatest as $user) {
 
-                                    echo $user['Username'] . '<br>';
-
-                                }
-                            ?>
+                                    echo '<li>';
+                                        echo $user['Username'];
+                                        echo '<a href="members.php?do=Edit&userid=' . $user['UserID'] . '">';
+                                        echo '<span class="btn btn-success pull-right">';
+                                        echo '<i class="fa fa-edit"></i>Edit';
+                                        if ($user['RegStatus'] == 0) {
+                                            echo " <a href='members.php?do=Activate&userid=" . $user['UserID'] . "' class='btn btn-info pull-right activate'><i class='fa  fa-close'></i>Activate</a>";
+                                        }
+                                        echo '</span>';
+                                        echo '</a></li>';
+                                    }
+                                ?>
+                            </ul>
                         </div>
                     </div>
                 </div>
