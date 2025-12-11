@@ -128,7 +128,6 @@ if (isset($_SESSION['Username'])) {
 
         // Insert Member Page
 
-        // $pass = '';
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             echo "<h1 class='text-center'>Update Member</h1>";

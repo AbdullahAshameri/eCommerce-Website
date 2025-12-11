@@ -71,11 +71,11 @@
         
         $statment = $con->prepare("SELECT $select FROM $from WHERE $select = ?");
 
-    $statment->execute(array($value));
+        $statment->execute(array($value));
 
-    $count = $statment->rowCount();
-    
-    return $count;
+        $count = $statment->rowCount();
+        
+        return $count;
 
 }
 

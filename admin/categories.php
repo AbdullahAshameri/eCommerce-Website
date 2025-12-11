@@ -28,7 +28,7 @@ if (isset($_SESSION['Username'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Name</label>
                     <div class="col-sm-10 col-md-6">
-                        <input type="text" name="username" class="form-control" autocomplete="off" required="required" placeholder="Name Of The Category" />
+                        <input type="text" name="name" class="form-control" autocomplete="off" required="required" placeholder="Name Of The Category" />
                     </div>
                 </div>
                 <!-- End Name Field -->
@@ -42,7 +42,7 @@ if (isset($_SESSION['Username'])) {
                 <!-- End Description Field -->
                 <!-- Starat Ordering Field -->
                 <div class="form-group form-group-lg">
-                    <label class="col-sm-2 control-label">Email</label>
+                    <label class="col-sm-2 control-label">Ordering</label>
                     <div class="col-sm-10 col-md-6">
                         <input type="text" name="ordering" class="form-control" placeholder="Number To Array The Categories" />
                     </div>
@@ -106,6 +106,62 @@ if (isset($_SESSION['Username'])) {
 <?php
 
     } elseif ($do == 'Insert') {
+
+        // Insert Member Page
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            echo "<h1 class='text-center'>Update Member</h1>";
+            echo "<div class='container'>";
+            // Get The Variable From The Form
+            $name       = $_POST['name'];
+            $desc       = $_POST['description'];
+            $order      = $_POST['ordering'];
+            $visible    = $_POST['visibility'];
+            $comment = $_POST['commenting'];
+            $ads        = $_POST['ads'];
+
+            // Check If User Exist in Database
+            $check = checkItem("Name", "categories", $name);
+
+            if ($check == 1) {
+
+                $theMsg = '<div class="alert alert-danger">Sorry This Category Is Exist</div>';
+
+                redirectHome($theMsg, 'back');
+            } else {
+
+                // Insert Category Info In Database
+                $stmt = $con->prepare("
+                    INSERT INTO categories(Name, Description, Ordering, Visibility, Allow_Comment, Allow_Ads)
+                VALUES(:zname, :zdesc, :zorder, :zvis, :zcom, :zads)
+            ");
+
+                $stmt->execute([
+                    'zname'  => $name,
+                    'zdesc'  => $desc,
+                    'zorder' => $order,
+                    'zvis'   => $visible,
+                    'zcom'   => $comment,
+                    'zads'   => $ads
+                ]);
+
+
+
+                // Echo Seccess Message
+                $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Iserted </div>';
+
+                redirectHome($theMsg, 'back');
+            }
+        } else {
+
+            echo "<div class='container'>";
+
+            $theMsg = '<div class="alert alert-danger">Sorry You Cant Browse This Page Directrly</div>';
+            redirectHome($theMsg, 'back', 3);
+
+            echo "</div>";
+        }
     } elseif ($do == 'Edit') {
     } elseif ($do == 'Update') {
     } elseif ($do == 'Delete') {
