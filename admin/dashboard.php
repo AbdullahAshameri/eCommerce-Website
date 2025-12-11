@@ -1,4 +1,7 @@
 <?php
+
+ob_start(); // Output Buffering Start
+
 session_start();
 if (isset($_SESSION['Username'])) {
 
@@ -25,8 +28,8 @@ if (isset($_SESSION['Username'])) {
                     <div class="stat st-pending">
                         Pending Members
                         <span><a href="members.php?do=Manage&page=Pending">
-                            <?php echo checkItem("RegStatus", "users", 0) ?>
-                        </a></span>
+                                <?php echo checkItem("RegStatus", "users", 0) ?>
+                            </a></span>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -57,21 +60,21 @@ if (isset($_SESSION['Username'])) {
                         <div class="panel-body">
                             <ul class="list-unstyled latest-users">
                                 <?php
-                                    $theLatest = getLatest("*", "users", "UserID", $latestUsers);
+                                $theLatest = getLatest("*", "users", "UserID", $latestUsers);
 
-                                    foreach ($theLatest as $user) {
+                                foreach ($theLatest as $user) {
 
                                     echo '<li>';
-                                        echo $user['Username'];
-                                        echo '<a href="members.php?do=Edit&userid=' . $user['UserID'] . '">';
-                                        echo '<span class="btn btn-success pull-right">';
-                                        echo '<i class="fa fa-edit"></i>Edit';
-                                        if ($user['RegStatus'] == 0) {
-                                            echo " <a href='members.php?do=Activate&userid=" . $user['UserID'] . "' class='btn btn-info pull-right activate'><i class='fa  fa-close'></i>Activate</a>";
-                                        }
-                                        echo '</span>';
-                                        echo '</a></li>';
+                                    echo $user['Username'];
+                                    echo '<a href="members.php?do=Edit&userid=' . $user['UserID'] . '">';
+                                    echo '<span class="btn btn-success pull-right">';
+                                    echo '<i class="fa fa-edit"></i>Edit';
+                                    if ($user['RegStatus'] == 0) {
+                                        echo " <a href='members.php?do=Activate&userid=" . $user['UserID'] . "' class='btn btn-info pull-right activate'><i class='fa  fa-close'></i>Activate</a>";
                                     }
+                                    echo '</span>';
+                                    echo '</a></li>';
+                                }
                                 ?>
                             </ul>
                         </div>
@@ -104,3 +107,4 @@ if (isset($_SESSION['Username'])) {
 
     exit();
 }
+ob_end_flush(); // Send output + end buffering
