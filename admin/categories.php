@@ -27,18 +27,25 @@ if (isset($_SESSION['Username'])) {
         $cats = $stmt2->fetchAll(); ?>
 
         <h1 class="text-center">Manage Category</h1>
-        <div class="container">
+        <div class="container categories">
             <div class="panel panel-default">
                 <div class="panel-heading">Manage Categories</div>
                 <div class="panel-body">
                     <?php
                         foreach($cats as $cat) {
-                            echo $cat['Name'] . '<br />';
-                            echo $cat['Description'] . '<br />';
-                            echo 'Ordering Is ' . $cat['Ordering'] . '<br />';
-                            echo 'Visibility Is ' . $cat['Visibility'] . '<br />';
-                            echo 'Allow Comment Is ' . $cat['Allow_Comment'] . '<br />';
-                            echo 'Allow Ads Is ' . $cat['Allow_Ads'] . '<br />';
+                            echo "<div class='cat'>";
+                                echo "<div class='hidden-buttons'>";
+                                    echo "<a href='#' class='btn btn-xs btn-primary'><i class='fa fa-edit'></a>Edit</a>";
+                                echo "</div>";
+                                echo "<h3>" . $cat['Name'] . '</h3>';
+                                echo "<p>"; if($cat['Description'] == '') {echo 'This category has no description'; } else {echo $cat['Description'];} echo"</p>";
+                                echo 'Ordering Is ' . $cat['Ordering'] . '<br />';
+                                if($cat['Visibility'] == 1) {echo '<span class="visibility">Hidden</span>'; }
+                                if($cat['Allow_Comment'] == 1) {echo '<span class="commenting">Comment Disabled</span>'; }
+                                if($cat['Allow_Ads'] == 1) {echo '<span class="advertises">Ads Disabled</span>'; }
+                                // echo '<span class="advertises">Allow Ads Is ' . $cat['Allow_Ads'] . '</span>';
+                            echo "</div>";
+                            echo "<hr>";
                         }
                     ?>
                 </div>
