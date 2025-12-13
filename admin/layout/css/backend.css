@@ -191,6 +191,28 @@ body {
 
 .categories .cat {
     padding: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.categories .cat:hover {
+    background-color: #EEE;
+}
+
+.categories .cat:hover .hidden-buttons {
+    right: 10px;
+}
+
+.categories .cat .hidden-buttons {
+    -webkit-transition: all .5s ease-in-out;
+    -moz-transition: all .5s ease-in-out;
+    transition: all .5s ease-in-out;
+    position: absolute;
+    top: 15px;
+    right: -120px;
+}
+.categories .cat .hidden-buttons a {
+    margin-right: 5px;
 }
 
 .categories hr {
