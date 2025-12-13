@@ -21,8 +21,16 @@ if (isset($_SESSION['Username'])) {
     if ($do == 'Manage') {
 
         $sort = 'ASC';
+        $type = 'Ordering';
 
         $sort_array = array('ASC', 'DESC');
+        $type_array = array('Ordering', 'ID');
+
+        if (isset($_GET['type']) && in_array($_GET['type'], $type_array)) {
+
+            $type = $_GET['type'];
+
+        }
 
         if (isset($_GET['sort']) && in_array($_GET['sort'], $sort_array)) {
 
@@ -30,9 +38,7 @@ if (isset($_SESSION['Username'])) {
 
         }
 
-        
-
-        $stmt2 = $con->prepare("SELECT * FROM categories ORDER BY Ordering $sort");
+        $stmt2 = $con->prepare("SELECT * FROM categories ORDER BY $type $sort");
 
         $stmt2->execute();
 
@@ -44,10 +50,17 @@ if (isset($_SESSION['Username'])) {
                 <div class="panel-heading">
                     Manage Categories
                     <div class="ordering pull-right">
-                        Ordering:
-                        <a class="<?php if($sort == 'ASC') {echo 'active'; } ?>" href="?sort=ASC">Asc</a> | 
-                        <a class="<?php if($sort == 'DESC') {echo 'active'; } ?>" href="?sort=DESC">Desc</a> 
-                    </div>
+                    Ordering:
+                    <a class="<?php if($sort == 'ASC') { echo 'active'; } ?>" href="?type=<?php echo $type; ?>&sort=ASC">Asc</a> | 
+                    <a class="<?php if($sort == 'DESC') { echo 'active'; } ?>" href="?type=<?php echo $type; ?>&sort=DESC">Desc</a>  
+                </div>
+
+                <div class="ordering pull-right">
+                    Type:
+                    <a class="<?php if($type == 'Ordering') { echo 'active'; } ?>" href="?type=Ordering&sort=<?php echo $sort; ?>">Ordering</a> | 
+                    <a class="<?php if($type == 'ID') { echo 'active'; } ?>" href="?type=ID&sort=<?php echo $sort; ?>">ID</a> | 
+                </div>
+
                 </div>
                 <div class="panel-body">
                     <?php   
