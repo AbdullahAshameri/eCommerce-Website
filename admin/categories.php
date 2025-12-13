@@ -20,7 +20,19 @@ if (isset($_SESSION['Username'])) {
 
     if ($do == 'Manage') {
 
-        $stmt2 = $con->prepare("SELECT * FROM categories");
+        $sort = 'ASC';
+
+        $sort_array = array('ASC', 'DESC');
+
+        if (isset($_GET['sort']) && in_array($_GET['sort'], $sort_array)) {
+
+            $sort = $_GET['sort'];
+
+        }
+
+        
+
+        $stmt2 = $con->prepare("SELECT * FROM categories ORDER BY Ordering $sort");
 
         $stmt2->execute();
 
@@ -29,9 +41,16 @@ if (isset($_SESSION['Username'])) {
         <h1 class="text-center">Manage Category</h1>
         <div class="container categories">
             <div class="panel panel-default">
-                <div class="panel-heading">Manage Categories</div>
+                <div class="panel-heading">
+                    Manage Categories
+                    <div class="ordering pull-right">
+                        Ordering:
+                        <a class="<?php if($sort == 'ASC') {echo 'active'; } ?>" href="?sort=ASC">Asc</a> | 
+                        <a class="<?php if($sort == 'DESC') {echo 'active'; } ?>" href="?sort=DESC">Desc</a> 
+                    </div>
+                </div>
                 <div class="panel-body">
-                    <?php
+                    <?php   
                         foreach($cats as $cat) {
                             echo "<div class='cat'>";
                                 echo "<div class='hidden-buttons'>";
@@ -44,7 +63,6 @@ if (isset($_SESSION['Username'])) {
                                 if($cat['Visibility'] == 1) {echo '<span class="visibility">Hidden</span>'; }
                                 if($cat['Allow_Comment'] == 1) {echo '<span class="commenting">Comment Disabled</span>'; }
                                 if($cat['Allow_Ads'] == 1) {echo '<span class="advertises">Ads Disabled</span>'; }
-                                // echo '<span class="advertises">Allow Ads Is ' . $cat['Allow_Ads'] . '</span>';
                             echo "</div>";
                             echo "<hr>";
                         }

@@ -185,6 +185,16 @@ body {
 
 /* Start Category Pag*/
 
+.categories .ordering a {
+    color: #888;
+    text-decoration: none;
+}
+
+.categories .ordering .active {
+    color: #F00;
+    font-weight: bold;
+}
+
 .categories .panel-body {
     padding: 0;
 }
