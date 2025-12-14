@@ -73,7 +73,7 @@ if (isset($_SESSION['Username'])) {
                         echo "<div class='cat'>";
                         echo "<div class='hidden-buttons'>";
                         echo "<a href='categories.php?do=Edit&catid=" . $cat['ID'] . "' class='btn btn-xs btn-primary'><i class='fa fa-edit'></i>Edit</a>";
-                        echo "<a href='#' class='btn btn-xs btn-danger'><i class='fa fa-close'></i>Delete</a>";
+                        echo "<a href='categories.php?do=Delete&catid=" . $cat['ID'] . "' class='confirm btn btn-xs btn-danger'><i class='fa fa-close'></i>Delete</a>";
                         echo "</div>";
                         echo "<h3>" . $cat['Name'] . '</h3>';
                         echo "<p>";
@@ -99,6 +99,7 @@ if (isset($_SESSION['Username'])) {
                     ?>
                 </div>
             </div>
+            <a class="add-category btn btn-primary" href="categories.php?do=Add"><i class="fa fa-plus"></i>Add New Category</a>
         </div>
     <?php
     } elseif ($do == 'Add') { ?>
@@ -394,6 +395,36 @@ if (isset($_SESSION['Username'])) {
     echo "</div>";
 
     } elseif ($do == 'Delete') {
+
+        echo "<h1 class='text-center'>Delete Category</h1>";
+        echo "<div class='container'>";
+
+        // Check if Get Request Cattid Is Numeric & Get The Integer Value Of It
+
+        $catid = isset($_GET['catid']) && is_numeric($_GET['catid']) ? intval($_GET['catid']) : 0;
+
+        //Select All Data Depend In This ID
+
+        $check = checkItem('ID', 'categories', $catid);
+
+        // If There is Such Id Show The Form
+        if ($check > 0) {
+
+            $stmt = $con->prepare("DELETE FROM categories WHERE ID = :zid");
+
+            $stmt->bindParam(":zid", $catid);
+
+            $stmt->execute();
+
+            $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Rrcord Deleted </div>';
+            redirectHome($theMsg, 'back');
+        } else {
+
+            $theMsg = '<div class="alert alert-danger"This ID is Not Exist</div>';
+            redirectHome($theMsg);
+        }
+
+        echo '</div>';
     }
 
     include $tpl . 'footer.php';
