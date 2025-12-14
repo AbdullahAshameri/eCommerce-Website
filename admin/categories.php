@@ -360,6 +360,39 @@ if (isset($_SESSION['Username'])) {
         }
     } elseif ($do == 'Update') {
 
+        // echo "h1 class='text-center'> Update Category </h1>";
+        // echo "<div class='container'>";
+
+        echo "<h1 class='text-center'>Update Category</h1>";
+        echo "<div class='container'>";
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Get Validation From The Form
+            $id         = $_POST['catid'];
+            $name       = $_POST['name'];
+            $desc       = $_POST['description'];
+            $order      = $_POST['ordering'];
+            $visible    = $_POST['visibility'];
+            $comment    = $_POST['commenting'];
+            $ads        = $_POST['ads'];
+
+            // Update The Database With This Info 
+            $stmt = $con->prepare("UPDATE categories SET name = ?, Description = ?, Ordering = ?, visibility = ?, Allow_Comment = ?, Allow_Ads = ? WHERE ID = ?");
+            $stmt->execute(array($name, $desc, $order, $visible, $comment, $ads, $id));
+
+            // Echo Success Message 
+            $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Updated </div>';
+            redirectHome($theMsg, 'back');
+        } else {
+            echo "<div class='continer'>";
+    
+            $theMsg = '<div class="alert alert-danger">Sorry You Cant <strong>Browse</strong> This Page Directry';
+            redirectHome($theMsg, 'back');
+
+            echo "</div>";
+        }
+    echo "</div>";
+
     } elseif ($do == 'Delete') {
     }
 
