@@ -47,7 +47,7 @@ if (isset($_SESSION['Username'])) {
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Manage Categories
-                    <div class="ordering pull-right">
+                    <div class="option pull-right">
                         Ordering:
                         <a class="<?php if ($sort == 'ASC') {
                                         echo 'active';
@@ -55,9 +55,9 @@ if (isset($_SESSION['Username'])) {
                         <a class="<?php if ($sort == 'DESC') {
                                         echo 'active';
                                     } ?>" href="?type=<?php echo $type; ?>&sort=DESC">Desc</a>
-                    </div>
 
-                    <div class="ordering pull-right">
+
+                        <!-- <div class="option pull-right"> -->
                         By:
                         <a class="<?php if ($type == 'Ordering') {
                                         echo 'active';
@@ -65,6 +65,9 @@ if (isset($_SESSION['Username'])) {
                         <a class="<?php if ($type == 'ID') {
                                         echo 'active';
                                     } ?>" href="?type=ID&sort=<?php echo $sort; ?>">ID</a> |
+                        <span class="active" data-view="full">Full</span>
+                        <span data-view="classic">Classic</span>
+                        <!-- </div> -->
                     </div>
                 </div>
                 <div class="panel-body">
@@ -76,6 +79,7 @@ if (isset($_SESSION['Username'])) {
                         echo "<a href='categories.php?do=Delete&catid=" . $cat['ID'] . "' class='confirm btn btn-xs btn-danger'><i class='fa fa-close'></i>Delete</a>";
                         echo "</div>";
                         echo "<h3>" . $cat['Name'] . '</h3>';
+                        echo "<div class='full-view'>";
                         echo "<p>";
                         if ($cat['Description'] == '') {
                             echo 'This category has no description';
@@ -93,6 +97,7 @@ if (isset($_SESSION['Username'])) {
                         if ($cat['Allow_Ads'] == 1) {
                             echo '<span class="advertises">Ads Disabled</span>';
                         }
+                        echo "</div>";
                         echo "</div>";
                         echo "<hr>";
                     }
@@ -298,11 +303,15 @@ if (isset($_SESSION['Username'])) {
                         <label class="col-sm-2 control-label">Visible</label>
                         <div class="col-sm-10 col-md-6">
                             <div>
-                                <input id="vis-yes" type="radio" name="visibility" value="0" <?php if ($cat['Visibility'] == 0 ) {echo 'checked'; }?> />
+                                <input id="vis-yes" type="radio" name="visibility" value="0" <?php if ($cat['Visibility'] == 0) {
+                                                                                                    echo 'checked';
+                                                                                                } ?> />
                                 <label for="vis-yes">Yeas</label>
                             </div>
                             <div>
-                                <input id="vis-no" type="radio" name="visibility" value="1" <?php if ($cat['Visibility'] == 1 ) {echo 'checked'; }?> />
+                                <input id="vis-no" type="radio" name="visibility" value="1" <?php if ($cat['Visibility'] == 1) {
+                                                                                                echo 'checked';
+                                                                                            } ?> />
                                 <label for="vis-no">No</label>
                             </div>
                         </div>
@@ -313,11 +322,15 @@ if (isset($_SESSION['Username'])) {
                         <label class="col-sm-2 control-label">Allow Commenting</label>
                         <div class="col-sm-10 col-md-6">
                             <div>
-                                <input id="com-yes" type="radio" name="commenting" value="0" <?php if ($cat['Allow_Comment'] == 0) {echo 'checked'; }?> />
+                                <input id="com-yes" type="radio" name="commenting" value="0" <?php if ($cat['Allow_Comment'] == 0) {
+                                                                                                    echo 'checked';
+                                                                                                } ?> />
                                 <label for="com-yes">Yeas</label>
                             </div>
                             <div>
-                                <input id="com-no" type="radio" name="commenting" value="1" <?php if( $cat['Allow_Comment'] == 1) {echo 'checked'; }?> />
+                                <input id="com-no" type="radio" name="commenting" value="1" <?php if ($cat['Allow_Comment'] == 1) {
+                                                                                                echo 'checked';
+                                                                                            } ?> />
                                 <label for="com-no">No</label>
                             </div>
                         </div>
@@ -328,11 +341,15 @@ if (isset($_SESSION['Username'])) {
                         <label class="col-sm-2 control-label">Allow Ads</label>
                         <div class="col-sm-10 col-md-6">
                             <div>
-                                <input id="ads-yes" type="radio" name="ads" value="0" <?php if($cat['Allow_Ads'] == 0) {echo 'checked'; } ?> />
+                                <input id="ads-yes" type="radio" name="ads" value="0" <?php if ($cat['Allow_Ads'] == 0) {
+                                                                                            echo 'checked';
+                                                                                        } ?> />
                                 <label for="ads-yes">Yeas</label>
                             </div>
                             <div>
-                                <input id="ads-no" type="radio" name="ads" value="1" <?php if($cat['Allow_Comment'] == 1) {echo 'checked'; }?> />
+                                <input id="ads-no" type="radio" name="ads" value="1" <?php if ($cat['Allow_Comment'] == 1) {
+                                                                                            echo 'checked';
+                                                                                        } ?> />
                                 <label for="ads-no">No</label>
                             </div>
                         </div>
@@ -386,14 +403,13 @@ if (isset($_SESSION['Username'])) {
             redirectHome($theMsg, 'back');
         } else {
             echo "<div class='continer'>";
-    
+
             $theMsg = '<div class="alert alert-danger">Sorry You Cant <strong>Browse</strong> This Page Directry';
             redirectHome($theMsg, 'back');
 
             echo "</div>";
         }
-    echo "</div>";
-
+        echo "</div>";
     } elseif ($do == 'Delete') {
 
         echo "<h1 class='text-center'>Delete Category</h1>";
