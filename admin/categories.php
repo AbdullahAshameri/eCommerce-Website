@@ -46,27 +46,28 @@ if (isset($_SESSION['Username'])) {
         <div class="container categories">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Manage Categories
+                    <i class="fa fa-edit"></i> Manage Categories
                     <div class="option pull-right">
-                        Ordering:
+                        <i class="fa fa-sort"></i>Ordering:[
                         <a class="<?php if ($sort == 'ASC') {
                                         echo 'active';
                                     } ?>" href="?type=<?php echo $type; ?>&sort=ASC">Asc</a> |
                         <a class="<?php if ($sort == 'DESC') {
                                         echo 'active';
-                                    } ?>" href="?type=<?php echo $type; ?>&sort=DESC">Desc</a>
+                                    } ?>" href="?type=<?php echo $type; ?>&sort=DESC">Desc</a>]
 
 
                         <!-- <div class="option pull-right"> -->
-                        By:
+                        By:[
                         <a class="<?php if ($type == 'Ordering') {
                                         echo 'active';
                                     } ?>" href="?type=Ordering&sort=<?php echo $sort; ?>">Ordering</a> |
                         <a class="<?php if ($type == 'ID') {
                                         echo 'active';
-                                    } ?>" href="?type=ID&sort=<?php echo $sort; ?>">ID</a> |
+                                    } ?>" href="?type=ID&sort=<?php echo $sort; ?>">ID</a> ]
+                        <i fa class="fa fa-eye"></i>View:[
                         <span class="active" data-view="full">Full</span>
-                        <span data-view="classic">Classic</span>
+                        <span data-view="classic">Classic</span>]
                         <!-- </div> -->
                     </div>
                 </div>
@@ -89,13 +90,13 @@ if (isset($_SESSION['Username'])) {
                         echo "</p>";
                         echo 'Ordering Is ' . $cat['Ordering'] . '<br />';
                         if ($cat['Visibility'] == 1) {
-                            echo '<span class="visibility">Hidden</span>';
+                            echo '<span class="visibility"><i class="fa fa-eye"></i>Hidden</span>';
                         }
                         if ($cat['Allow_Comment'] == 1) {
-                            echo '<span class="commenting">Comment Disabled</span>';
+                            echo '<span class="commenting"><i class="fa fa-close"></i>Comment Disabled</span>';
                         }
                         if ($cat['Allow_Ads'] == 1) {
-                            echo '<span class="advertises">Ads Disabled</span>';
+                            echo '<span class="advertises" <i class="fa fa-close">Ads Disabled</span>';
                         }
                         echo "</div>";
                         echo "</div>";

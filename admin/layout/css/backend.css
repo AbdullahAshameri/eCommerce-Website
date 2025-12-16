@@ -185,6 +185,25 @@ body {
 
 /* Start Category Pag*/
 
+.categories .panel-heading {
+    color: #959595;
+    font-weight: bold;
+}
+
+.categories .panel-heading i {
+    position: relative;
+    top: 1px;
+}
+
+.categories .panel-body {
+    padding: 0;
+}
+
+.categories .panel-body {
+    color: #888;
+    text-decoration: none;
+}
+
 .categories .option a {
     color: #888;
     text-decoration: none;
@@ -236,10 +255,13 @@ body {
 .categories .cat h3 {
     margin: 0;
     cursor: pointer;
+    font-weight: bold;
+    color: #6A6A6A;
 }
 
 .categories .cat .full-view p {
     margin: 10px 0;
+    color: #707070;
 }
 
 .categories .cat:last-of-type ~ hr {
