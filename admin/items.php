@@ -81,6 +81,44 @@ if (isset($_SESSION['Username'])) {
                     </div>
                 </div>
                 <!-- End Status Field -->
+                <!-- Starat Members Field -->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Member</label>
+                    <div class="col-sm-10 col-md-6">
+                        <select class="" name="member" id="">
+                            <option value="0">...</option>
+                            <?php
+                            $stmt = $con->prepare("SELECT * FROM users");
+                            $stmt->execute();
+                            $users = $stmt->fetchAll();
+                            foreach ($users as $user) {
+
+                                echo "<option value='" . $user['UserID'] . " '>" . $user['Username'] . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <!-- End Members Field -->
+                <!-- Starat Category Field -->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Category</label>
+                    <div class="col-sm-10 col-md-6">
+                        <select class="" name="categories" id="">
+                            <option value="0">...</option>
+                            <?php
+                            $stmt2 = $con->prepare("SELECT * FROM categories");
+                            $stmt2->execute();
+                            $cats = $stmt2->fetchAll();
+                            foreach ($cats as $cat) {
+
+                                echo "<option value='" . $cat['ID'] . " '>" . $cat['Name'] . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <!-- End Category Field -->
                 <!-- Starat Submit Field -->
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
@@ -140,25 +178,25 @@ if (isset($_SESSION['Username'])) {
 
             // Update The Database Whith This info Update Operation
             if (empty($formErrors)) {
-                    // If No Errors well insert the data
-                    // Insert User Info In Database
-                    $stmt = $con->prepare("INSERT INTO 
+                // If No Errors well insert the data
+                // Insert User Info In Database
+                $stmt = $con->prepare("INSERT INTO 
                                         items(Name, Description, Price, Country_Made, Status, Add_Date)
                                     VALUES
                                         (:zname, :zdesc, :zprice, :zcountry, :zstatus, now())"); // Any User Inserted By Admain RegStatus Tack 1 
-                    $stmt->execute(array(
-                        'zname'       => $name,
-                        'zdesc'       => $desc,
-                        'zprice'      => $price,
-                        'zcountry'    => $country,
-                        'zstatus'     => $status,
+                $stmt->execute(array(
+                    'zname'       => $name,
+                    'zdesc'       => $desc,
+                    'zprice'      => $price,
+                    'zcountry'    => $country,
+                    'zstatus'     => $status,
 
-                    ));
+                ));
 
-                    // Echo Seccess Message
-                    $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Iserted </div>';
+                // Echo Seccess Message
+                $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Iserted </div>';
 
-                    redirectHome($theMsg, 'back');
+                redirectHome($theMsg, 'back');
             }
         } else {
 
@@ -170,7 +208,6 @@ if (isset($_SESSION['Username'])) {
             echo "</div>";
         }
         echo "</div>";
-
     } elseif ($do == 'Edit') {
     } elseif ($do == 'Update') {
     } elseif ($do == 'Delete') {
