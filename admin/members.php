@@ -74,8 +74,9 @@ if (isset($_SESSION['Username'])) {
             <a href="members.php?do=Add" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Member</a>
         </div>
 
-    <?php } elseif ($do == 'Add') {  // Add Member Page 
-    ?>
+    <?php 
+    
+    } elseif ($do == 'Add') {  // Add Member Page ?>
 
         <h1 class="text-center">Add New Member</h1>
         <div class="container">
