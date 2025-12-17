@@ -130,7 +130,7 @@ if (isset($_SESSION['Username'])) {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            echo "<h1 class='text-center'>Update Member</h1>";
+            echo "<h1 class='text-center'>Insert Item</h1>";
             echo "<div class='container'>";
             // Get The Variable From The Form
             $user   = $_POST['username'];
@@ -216,7 +216,7 @@ if (isset($_SESSION['Username'])) {
             echo "<div class='container'>";
 
             $theMsg = '<div class="alert alert-danger">Sorry You Cant Browse This Page Directrly</div>';
-            redirectHome($theMsg, 'back', 3);
+            redirectHome($theMsg);
 
             echo "</div>";
 

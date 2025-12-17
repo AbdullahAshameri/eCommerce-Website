@@ -30,7 +30,7 @@ if (isset($_SESSION['Username'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Name</label>
                     <div class="col-sm-10 col-md-6">
-                        <input type="text" name="name" class="form-control" required="required" placeholder="Name Of The Item" />
+                        <input type="text" name="name" class="form-control" placeholder="Name Of The Item" />
                     </div>
                 </div>
                 <!-- End Name Field -->
@@ -38,7 +38,7 @@ if (isset($_SESSION['Username'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-10 col-md-6">
-                        <input type="text" name="Description" class="form-control" required="required" placeholder="Description Of The Item" />
+                        <input type="text" name="description" class="form-control" placeholder="Description Of The Item" />
                     </div>
                 </div>
                 <!-- End Description Field -->
@@ -46,7 +46,7 @@ if (isset($_SESSION['Username'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Price</label>
                     <div class="col-sm-10 col-md-6">
-                        <input type="text" name="Price" class="form-control" required="required" placeholder="Price Of The Item" />
+                        <input type="text" name="price" class="form-control" placeholder="Price Of The Item" />
                     </div>
                 </div>
                 <!-- End Price Field -->
@@ -54,23 +54,23 @@ if (isset($_SESSION['Username'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Country</label>
                     <div class="col-sm-10 col-md-6">
-                        <input type="text" name="Country_Made" class="form-control" required="required" placeholder="Country Of Made" />
+                        <input type="text" name="country" class="form-control" placeholder="Country Of Made" />
                     </div>
                 </div>
                 <!-- End Country Made Field -->
                 <!-- Starat Image Field -->
-                <div class="form-group form-group-lg">
+                <!-- <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Image</label>
                     <div class="col-sm-10 col-md-6">
-                        <input type="text" name="Country_Made" class="form-control" required="required" placeholder="Image Of The Item" />
+                        <input type="text" name="Image" class="form-control" required="required" placeholder="Image Of The Item" />
                     </div>
-                </div>
+                </div> -->
                 <!-- End Image Field -->
                 <!-- Starat Status Field -->
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Status</label>
                     <div class="col-sm-10 col-md-6">
-                        <select class="form-control" name="Status" id="">
+                        <select class="" name="status" id="">
                             <option value="0">...</option>
                             <option value="1">New</option>
                             <option value="2">Link New</Link>
@@ -94,6 +94,83 @@ if (isset($_SESSION['Username'])) {
 <?php
 
     } elseif ($do == 'Insert') {
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            echo "<h1 class='text-center'>Update Member</h1>";
+            echo "<div class='container'>";
+            // Get The Variable From The Form
+            $name           = $_POST['name'];
+            $desc           = $_POST['description'];
+            $price          = $_POST['price'];
+            $country        = $_POST['country'];
+            // $image          = $_POST['image'];
+            $status         = $_POST['status'];
+
+            // Validate The Form
+            $formErrors = array();
+            if (empty($name)) {
+
+                $formErrors[] = 'Name Can\'t be <strong>Empty</strong>';
+            }
+
+            if (empty($desc)) {
+
+                $formErrors[] = 'Description Can\'t be <strong>Empty</strong>';
+            }
+            if (empty($price)) {
+
+                $formErrors[] = 'Price Can\'t be <strong>Empty</strong>';
+            }
+
+            if (empty($country)) {
+
+                $formErrors[] = 'Country Can\'t be <strong>Empty</strong>';
+            }
+
+            if ($status == 0) {
+
+                $formErrors[] = 'You Must Choose The <strong>Status</strong>';
+            }
+
+            // Loop Into Error Array And Echo It
+            foreach ($formErrors as $errors) {
+                echo '<div class="alert alert-danger">' . $errors . '</div> <br>';
+            }
+
+            // Update The Database Whith This info Update Operation
+            if (empty($formErrors)) {
+                    // If No Errors well insert the data
+                    // Insert User Info In Database
+                    $stmt = $con->prepare("INSERT INTO 
+                                        items(Name, Description, Price, Country_Made, Status, Add_Date)
+                                    VALUES
+                                        (:zname, :zdesc, :zprice, :zcountry, :zstatus, now())"); // Any User Inserted By Admain RegStatus Tack 1 
+                    $stmt->execute(array(
+                        'zname'       => $name,
+                        'zdesc'       => $desc,
+                        'zprice'      => $price,
+                        'zcountry'    => $country,
+                        'zstatus'     => $status,
+
+                    ));
+
+                    // Echo Seccess Message
+                    $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Iserted </div>';
+
+                    redirectHome($theMsg, 'back');
+            }
+        } else {
+
+            echo "<div class='container'>";
+
+            $theMsg = '<div class="alert alert-danger">Sorry You Cant Browse This Page Directrly</div>';
+            redirectHome($theMsg);
+
+            echo "</div>";
+        }
+        echo "</div>";
+
     } elseif ($do == 'Edit') {
     } elseif ($do == 'Update') {
     } elseif ($do == 'Delete') {
