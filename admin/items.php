@@ -104,7 +104,7 @@ if (isset($_SESSION['Username'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Category</label>
                     <div class="col-sm-10 col-md-6">
-                        <select class="" name="categories" id="">
+                        <select class="" name="category" id="">
                             <option value="0">...</option>
                             <?php
                             $stmt2 = $con->prepare("SELECT * FROM categories");
@@ -144,6 +144,8 @@ if (isset($_SESSION['Username'])) {
             $country        = $_POST['country'];
             // $image          = $_POST['image'];
             $status         = $_POST['status'];
+            $member         = $_POST['member'];
+            $cat            = $_POST['category'];
 
             // Validate The Form
             $formErrors = array();
@@ -170,6 +172,14 @@ if (isset($_SESSION['Username'])) {
 
                 $formErrors[] = 'You Must Choose The <strong>Status</strong>';
             }
+            if ($member == 0) {
+
+                $formErrors[] = 'You Must Choose The <strong>Member</strong>';
+            }
+            if ($cat == 0) {
+
+                $formErrors[] = 'You Must Choose The <strong>Category</strong>';
+            }
 
             // Loop Into Error Array And Echo It
             foreach ($formErrors as $errors) {
@@ -181,15 +191,17 @@ if (isset($_SESSION['Username'])) {
                 // If No Errors well insert the data
                 // Insert User Info In Database
                 $stmt = $con->prepare("INSERT INTO 
-                                        items(Name, Description, Price, Country_Made, Status, Add_Date)
+                                        items(Name, Description, Price, Country_Made, Status, Add_Date, Cat_ID, Member_id)
                                     VALUES
-                                        (:zname, :zdesc, :zprice, :zcountry, :zstatus, now())"); // Any User Inserted By Admain RegStatus Tack 1 
+                                        (:zname, :zdesc, :zprice, :zcountry, :zstatus, now(), :zcat, :zmember)"); // Any User Inserted By Admain RegStatus Tack 1 
                 $stmt->execute(array(
                     'zname'       => $name,
                     'zdesc'       => $desc,
                     'zprice'      => $price,
                     'zcountry'    => $country,
                     'zstatus'     => $status,
+                    'zcat'        => $cat,
+                    'zmember'     => $member,
 
                 ));
 
