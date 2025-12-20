@@ -21,7 +21,7 @@ if (isset($_SESSION['Username'])) {
     if ($do == 'Manage') {
 
 
-        $stmt= $con->prepare("  SELECT 
+        $stmt = $con->prepare("  SELECT 
                                     items.*, 
                                     categories.Name AS Category_name,
                                     users.Username    
@@ -194,7 +194,7 @@ if (isset($_SESSION['Username'])) {
             </form>
         </div>
 
-<?php
+        <?php
 
     } elseif ($do == 'Insert') {
 
@@ -286,6 +286,140 @@ if (isset($_SESSION['Username'])) {
         }
         echo "</div>";
     } elseif ($do == 'Edit') {
+
+        // Check if Get Request item Is Numeric & Get The Integer Value Of It
+
+        $itemid = isset($_GET['itemid']) && is_numeric($_GET['itemid']) ? intval($_GET['itemid']) : 0;
+
+        //Select All Data Depend In This ID
+        $stmt = $con->prepare("SELECT * FROM items WHERE item_ID = ?");
+        // Execute
+        $stmt->execute(array($itemid));
+        // Fetch The Data
+        $item = $stmt->fetch();
+
+        // The Row Count
+        $count = $stmt->rowCount();
+
+        // If There is Such Id Show The Form
+        if ($stmt->rowCount() > 0) { ?>
+
+            <h1 class="text-center">Edite Item</h1>
+            <div class="container">
+                <form class="form-horizontal" action="?do=Update" method="POST">
+                    <!-- Starat Name Field -->
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10 col-md-6">
+                            <input type="text" name="name" class="form-control" placeholder="Name Of The Item" value="<?php echo $item['Name'] ?>" />
+                        </div>
+                    </div>
+                    <!-- End Name Field -->
+                    <!-- Starat Description Field -->
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10 col-md-6">
+                            <input type="text" name="description" class="form-control" placeholder="Description Of The Item" value="<?php echo $item['Description'] ?>" />
+                        </div>
+                    </div>
+                    <!-- End Description Field -->
+                    <!-- Starat Price Field -->
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-2 control-label">Price</label>
+                        <div class="col-sm-10 col-md-6">
+                            <input type="text" name="price" class="form-control" placeholder="Price Of The Item" value="<?php echo $item['Price'] ?>" />
+                        </div>
+                    </div>
+                    <!-- End Price Field -->
+                    <!-- Starat Country Made Field -->
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-2 control-label">Country</label>
+                        <div class="col-sm-10 col-md-6">
+                            <input type="text" name="country" class="form-control" placeholder="Country Of Made" value="<?php echo $item['Country_Made'] ?>" />
+                        </div>
+                    </div>
+                    <!-- End Country Made Field -->
+                    <!-- Starat Image Field -->
+                    <!-- <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Image</label>
+                    <div class="col-sm-10 col-md-6">
+                        <input type="text" name="Image" class="form-control" required="required" placeholder="Image Of The Item" />
+                    </div>
+                </div> -->
+                    <!-- End Image Field -->
+                    <!-- Starat Status Field -->
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-2 control-label">Status</label>
+                        <div class="col-sm-10 col-md-6">
+                            <select class="" name="status" id="">
+                                <option value="1" <?php if ($item['Status'] == 1 ) { echo 'selected'; } ?>>New</option>
+                                <option value="2" <?php if ($item['Status'] == 2 ) { echo 'selected'; } ?>>Link New</Link></option>
+                                <option value="3" <?php if ($item['Status'] == 3 ) { echo 'selected'; } ?>>Used</option>
+                                <option value="4" <?php if ($item['Status'] == 4 ) { echo 'selected'; } ?>>Old</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- End Status Field -->
+                    <!-- Starat Members Field -->
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-2 control-label">Member</label>
+                        <div class="col-sm-10 col-md-6">
+                            <select class="" name="member" id="">
+                                <?php
+                                $stmt = $con->prepare("SELECT * FROM users");
+                                $stmt->execute();
+                                $users = $stmt->fetchAll();
+                                foreach ($users as $user) {
+                                    echo "<option value='" . $user['UserID'] . "'";
+                                    if ($item['Member_id'] == $user['UserID'] ) { echo 'selected'; } 
+                                    echo">" . $user['Username'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- End Members Field -->
+                    <!-- Starat Category Field -->
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-2 control-label">Category</label>
+                        <div class="col-sm-10 col-md-6">
+                            <select class="" name="category" id="">
+                                <?php
+                                $stmt2 = $con->prepare("SELECT * FROM categories");
+                                $stmt2->execute();
+                                $cats = $stmt2->fetchAll();
+                                foreach ($cats as $cat) {
+
+                                    echo "<option value='" . $cat['ID'] . "'";
+                                    if ($item['Cat_ID'] == $cat['ID'] ) { echo 'selected'; }
+                                    echo ">" . $cat['Name'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- End Category Field -->
+                    <!-- Starat Submit Field -->
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="submit" value="Add Item" class="btn btn-primary btn-sm" />
+                        </div>
+                    </div>
+                    <!-- End Submit Field -->
+                </form>
+            </div>
+
+            <?php
+            // If There's No Such ID Show Error Message
+        } else {
+
+            echo "<div class='container'>";
+            $theMsg = '<div class="alert alert-danger"> There is No Such ID </div>';
+
+            redirectHome($theMsg);
+
+            echo "<</div>";
+        }
     } elseif ($do == 'Update') {
     } elseif ($do == 'Delete') {
     } elseif ($do == 'Approve') {
