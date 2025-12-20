@@ -307,6 +307,7 @@ if (isset($_SESSION['Username'])) {
             <h1 class="text-center">Edite Item</h1>
             <div class="container">
                 <form class="form-horizontal" action="?do=Update" method="POST">
+                    <input type="hidden" name="itemid" value="<?php echo $userid ?>"/>
                     <!-- Starat Name Field -->
                     <div class="form-group form-group-lg">
                         <label class="col-sm-2 control-label">Name</label>
@@ -421,6 +422,78 @@ if (isset($_SESSION['Username'])) {
             echo "<</div>";
         }
     } elseif ($do == 'Update') {
+
+        echo "<h1 class='text-center'>Update Item</h1>";
+        echo "<div class='container'>";
+
+        // $pass = '';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            // Get The Variable From The Form
+            $id             = $_POST['itemid'];
+            $name           = $_POST['name'];
+            $desc           = $_POST['description'];
+            $price          = $_POST['price'];
+            $country        = $_POST['country'];
+            $status         = $_POST['status'];
+            $member         = $_POST['member'];
+            $cat            = $_POST['category'];
+
+            // Validate The Form
+            $formErrors = array();
+            if (strlen($user) < 4) {
+
+                $formErrors[] = 'Username Cant Be Less Than <strong>4 Char</strong>';
+            }
+
+            if (strlen($user) > 20) {
+
+                $formErrors[] = 'Username Cant Be More Than <strong>20 Char</strong>';
+            }
+
+            if (empty($user)) {
+
+                $formErrors[] = 'Username cant Be <strong>Empty</strong>';
+            }
+
+            if (empty($name)) {
+
+                $formErrors[] = 'Full Name Cant be <strong>Empty</strong>';
+            }
+
+            if (empty($email)) {
+
+                $formErrors[] = 'Email Cant Be <strong>Empty</strong>';
+            }
+
+            // Loop Into Error Array And Echo It
+            foreach ($formErrors as $errors) {
+                echo '<div class="alert alert-danger">' . $errors . '</div> <br>';
+            }
+
+            // Update The Database Whith This info Update Operation
+            if (empty($formErrors)) {
+
+                // Update The Database Whith This info
+                $stmt = $con->prepare("UPDATE users SET Username = ?, Email = ?, FullName= ?, Password = ? WHERE UserID = ?");
+                $stmt->execute(array($user, $email, $name, $pass, $id));
+
+                // Echo Seccess Message
+                $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Updated </div>';
+
+                redirectHome($theMsg, 'back', 3);
+            }
+        } else {
+            echo "<div class='continer'>";
+
+            $theMsg = '<div class="alert alert-danger">Sorry You Cant <strong>Browse</strong> This Page Directry';
+            redirectHome($theMsg, 'back');
+
+            echo "</div>";
+        }
+
+        echo "</div>";
+        
     } elseif ($do == 'Delete') {
     } elseif ($do == 'Approve') {
     }
