@@ -16,7 +16,6 @@ if (isset($_SESSION['Username'])) {
     $numItems = 6; // Number of The Latest Item
     $latestItems = getLatest("*", 'items', 'item_ID', $numItems); // Latest Item Array
 
-
 ?>
     <div class="home-stats">
         <div class="container text-center">
@@ -24,28 +23,43 @@ if (isset($_SESSION['Username'])) {
             <div class="row">
                 <div class="col-md-3">
                     <div class="stat st-members">
-                        Total Members
-                        <a href="members.php"><span><?php echo countItems('UserID', 'users') ?></span></a>
+                        <i class="fa fa-users"></i>
+                        <div class="info">
+                            Total Members
+                            <span>
+                                <a href="members.php"><?php echo countItems('UserID', 'users') ?></a>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stat st-pending">
-                        Pending Members
-                        <span><a href="members.php?do=Manage&page=Pending">
-                                <?php echo checkItem("RegStatus", "users", 0) ?>
-                            </a></span>
+                        <i class="fa fa-user-plus"></i>
+                        <div class="info">
+                            Pending Members
+                            <span><a href="members.php?do=Manage&page=Pending">
+                                    <?php echo checkItem("RegStatus", "users", 0) ?>
+                                </a>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stat st-item">
-                        Total Items
-                        <a href="items.php"><span><?php echo countItems('item_id', 'items') ?></span></a>
+                        <i class="fa fa-tag"></i>
+                        <div class="info">
+                            Total Items
+                            <a href="items.php"><span><?php echo countItems('item_id', 'items') ?></span></a>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stat st-coments">
-                        Total Coments
-                        <span>0</span>
+                        <i class="fa fa-comments"></i>
+                        <div class="info">
+                            Total Coments
+                            <span>0</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -59,6 +73,10 @@ if (isset($_SESSION['Username'])) {
                         <div class="panel-heading">
                             <i class="fa fa-users">
                             </i>Latest <?php echo $numUsers ?>Registerd Users
+                            <span class="toggle-info pull-right">
+                                <i class="fa fa-plus fa-lg"></i>
+
+                            </span>
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled latest-users">
@@ -70,12 +88,12 @@ if (isset($_SESSION['Username'])) {
                                     echo '<a href="members.php?do=Edit&userid=' . $user['UserID'] . '">';
                                     echo '<span class="btn btn-success pull-right">';
                                     echo '<i class="fa fa-edit"></i>Edit';
-                                        if ($user['RegStatus'] == 0) {
-                                            echo " <a 
+                                    if ($user['RegStatus'] == 0) {
+                                        echo " <a 
                                                 href='members.php?do=Activate&userid=" . $user['UserID'] . "' 
                                                 class='btn btn-info pull-right activate'>
                                                 <i class='fa  fa-check'></i>Activate</a>";
-                                        }
+                                    }
                                     echo '</span>';
                                     echo '</a></li>';
                                 }
@@ -88,6 +106,10 @@ if (isset($_SESSION['Username'])) {
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-tag"></i>Latest Items
+                            <span class="toggle-info pull-right">
+                                <i class="fa fa-plus fa-lg"></i>
+
+                            </span>
                         </div>
 
                         <div class="panel-body">
@@ -95,18 +117,18 @@ if (isset($_SESSION['Username'])) {
                                 <?php
                                 foreach ($latestItems as $item) {
                                     echo '<li>';
-                                        echo $item['Name'];
-                                        echo '<a href="items.php?do=Edit&itemid=' . $item['item_ID'] . '">';
-                                            echo '<span class="btn btn-success pull-right">';
-                                                echo '<i class="fa fa-edit"></i>Edit';
-                                                    if ($item['Approve'] == 0) {
-                                                        echo " <a 
+                                    echo $item['Name'];
+                                    echo '<a href="items.php?do=Edit&itemid=' . $item['item_ID'] . '">';
+                                    echo '<span class="btn btn-success pull-right">';
+                                    echo '<i class="fa fa-edit"></i>Edit';
+                                    if ($item['Approve'] == 0) {
+                                        echo " <a 
                                                             href='items.php?do=Approve&itemid=" . $item['item_ID'] . "' 
                                                             class='btn btn-info pull-right activate'>
                                                             <i class='fa  fa-check'></i> Approve</a>";
-                                                    }
-                                                echo '</span>';
-                                            echo '</a>';
+                                    }
+                                    echo '</span>';
+                                    echo '</a>';
                                     echo '</li>';
                                 }
                                 ?>
