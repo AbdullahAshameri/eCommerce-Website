@@ -307,7 +307,7 @@ if (isset($_SESSION['Username'])) {
             <h1 class="text-center">Edite Item</h1>
             <div class="container">
                 <form class="form-horizontal" action="?do=Update" method="POST">
-                    <input type="hidden" name="itemid" value="<?php echo $userid ?>"/>
+                    <input type="hidden" name="itemid" value="<?php echo $itemid ?>"/>
                     <!-- Starat Name Field -->
                     <div class="form-group form-group-lg">
                         <label class="col-sm-2 control-label">Name</label>
@@ -436,34 +436,41 @@ if (isset($_SESSION['Username'])) {
             $price          = $_POST['price'];
             $country        = $_POST['country'];
             $status         = $_POST['status'];
-            $member         = $_POST['member'];
             $cat            = $_POST['category'];
+            $member         = $_POST['member'];
 
             // Validate The Form
             $formErrors = array();
-            if (strlen($user) < 4) {
-
-                $formErrors[] = 'Username Cant Be Less Than <strong>4 Char</strong>';
-            }
-
-            if (strlen($user) > 20) {
-
-                $formErrors[] = 'Username Cant Be More Than <strong>20 Char</strong>';
-            }
-
-            if (empty($user)) {
-
-                $formErrors[] = 'Username cant Be <strong>Empty</strong>';
-            }
-
             if (empty($name)) {
 
-                $formErrors[] = 'Full Name Cant be <strong>Empty</strong>';
+                $formErrors[] = 'Name Can\'t be <strong>Empty</strong>';
             }
 
-            if (empty($email)) {
+            if (empty($desc)) {
 
-                $formErrors[] = 'Email Cant Be <strong>Empty</strong>';
+                $formErrors[] = 'Description Can\'t be <strong>Empty</strong>';
+            }
+            if (empty($price)) {
+
+                $formErrors[] = 'Price Can\'t be <strong>Empty</strong>';
+            }
+
+            if (empty($country)) {
+
+                $formErrors[] = 'Country Can\'t be <strong>Empty</strong>';
+            }
+
+            if ($status == 0) {
+
+                $formErrors[] = 'You Must Choose The <strong>Status</strong>';
+            }
+            if ($member == 0) {
+
+                $formErrors[] = 'You Must Choose The <strong>Member</strong>';
+            }
+            if ($cat == 0) {
+
+                $formErrors[] = 'You Must Choose The <strong>Category</strong>';
             }
 
             // Loop Into Error Array And Echo It
@@ -475,8 +482,19 @@ if (isset($_SESSION['Username'])) {
             if (empty($formErrors)) {
 
                 // Update The Database Whith This info
-                $stmt = $con->prepare("UPDATE users SET Username = ?, Email = ?, FullName= ?, Password = ? WHERE UserID = ?");
-                $stmt->execute(array($user, $email, $name, $pass, $id));
+                $stmt = $con->prepare("UPDATE 
+                                            items 
+                                        SET 
+                                            Name = ?, 
+                                            Description = ?, 
+                                            Price = ?, 
+                                            Country_Made = ?, 
+                                            Status = ?, 
+                                            Cat_ID  = ?, 
+                                            Member_id  = ? 
+                                        WHERE 
+                                            item_ID = ?");
+                $stmt->execute(array($name, $desc, $price, $country, $status, $cat, $member, $id));
 
                 // Echo Seccess Message
                 $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Updated </div>';
