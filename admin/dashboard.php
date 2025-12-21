@@ -10,7 +10,11 @@ if (isset($_SESSION['Username'])) {
     include 'init.php';
 
     // Start Dashboard page
-    // $theLatest = getLatest("*", "users", "UserID", $latestUsers);
+    $numUsers = 6;
+    $latestUsers = getLatest("*", "users", "UserID", $numUsers);
+
+    $numItems = 6; // Number of The Latest Item
+    $latestItems = getLatest("*", 'items', 'item_ID', $numItems); // Latest Item Array
 
 
 ?>
@@ -41,7 +45,7 @@ if (isset($_SESSION['Username'])) {
                 <div class="col-md-3">
                     <div class="stat st-coments">
                         Total Coments
-                        <span>70</span>
+                        <span>0</span>
                     </div>
                 </div>
             </div>
@@ -52,26 +56,26 @@ if (isset($_SESSION['Username'])) {
             <div class="row">
                 <div class="col-sm-6">
                     <div class="panel panel-default">
-                        <?php $latestUsers = 5; ?>
                         <div class="panel-heading">
                             <i class="fa fa-users">
-                            </i>Latest <?php echo $latestUsers ?>Registerd Users
+                            </i>Latest <?php echo $numUsers ?>Registerd Users
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled latest-users">
                                 <?php
-                                $theLatest = getLatest("*", "users", "UserID", $latestUsers);
-
-                                foreach ($theLatest as $user) {
+                                foreach ($latestUsers as $user) {
 
                                     echo '<li>';
                                     echo $user['Username'];
                                     echo '<a href="members.php?do=Edit&userid=' . $user['UserID'] . '">';
                                     echo '<span class="btn btn-success pull-right">';
                                     echo '<i class="fa fa-edit"></i>Edit';
-                                    if ($user['RegStatus'] == 0) {
-                                        echo " <a href='members.php?do=Activate&userid=" . $user['UserID'] . "' class='btn btn-info pull-right activate'><i class='fa  fa-close'></i>Activate</a>";
-                                    }
+                                        if ($user['RegStatus'] == 0) {
+                                            echo " <a 
+                                                href='members.php?do=Activate&userid=" . $user['UserID'] . "' 
+                                                class='btn btn-info pull-right activate'>
+                                                <i class='fa  fa-check'></i>Activate</a>";
+                                        }
                                     echo '</span>';
                                     echo '</a></li>';
                                 }
@@ -87,7 +91,26 @@ if (isset($_SESSION['Username'])) {
                         </div>
 
                         <div class="panel-body">
-                            test
+                            <ul class="list-unstyled latest-users">
+                                <?php
+                                foreach ($latestItems as $item) {
+                                    echo '<li>';
+                                        echo $item['Name'];
+                                        echo '<a href="items.php?do=Edit&itemid=' . $item['item_ID'] . '">';
+                                            echo '<span class="btn btn-success pull-right">';
+                                                echo '<i class="fa fa-edit"></i>Edit';
+                                                    if ($item['Approve'] == 0) {
+                                                        echo " <a 
+                                                            href='items.php?do=Approve&itemid=" . $item['item_ID'] . "' 
+                                                            class='btn btn-info pull-right activate'>
+                                                            <i class='fa  fa-check'></i> Approve</a>";
+                                                    }
+                                                echo '</span>';
+                                            echo '</a>';
+                                    echo '</li>';
+                                }
+                                ?>
+                            </ul>
                         </div>
                     </div>
                 </div>
