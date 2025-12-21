@@ -68,7 +68,12 @@ if (isset($_SESSION['Username'])) {
                         echo "<td>" . $item['Username'] . "</td>";
                         echo "<td>
                                 <a href='items.php?do=Edit&itemid=" . $item['item_ID'] . "' class='btn btn-success'><i class='fa fa-edit'></i>Edit</a>
-                                <a href='items.php?do=Delete&itemid=" . $item['item_ID'] . "' class='btn btn-danger confirm'><i class='fa  fa-close'></i>Delete</a>";
+                                <a href='items.php?do=Delete&itemid=" . $item['item_ID'] . "' class='btn btn-danger confirm'><i class='fa  fa-close'></i>Delete</a> ";
+                                if ($item['Approve'] == 0) {
+                                    echo "<a href='items.php?do=Approve&itemid=" . $item['item_ID'] . "'
+                                    class='btn btn-info activate'>
+                                    <i class='fa fa-check'></i> Activate</a>";
+                                }
 
                         // if ($item['RegStatus'] == 0) {
 
@@ -544,6 +549,34 @@ if (isset($_SESSION['Username'])) {
 
         echo '</div>';
     } elseif ($do == 'Approve') {
+
+        echo "<h1 class='text-center'>Approve Item</h1>";
+        echo "<div class='container'>";
+
+        // Check if Get Request userid Is Numeric & Get The Integer Value Of It
+
+        $itemid = isset($_GET['itemid']) && is_numeric($_GET['itemid']) ? intval($_GET['itemid']) : 0;
+
+        //Select All Data Depend In This ID
+
+        $check = checkItem('item_ID', 'items', $itemid);
+
+        // If There is Such Id Show The Form
+        if ($check > 0) {
+
+            $stmt = $con->prepare("UPDATE items SET Approve = 1 WHERE item_ID = ?");
+
+            $stmt->execute(array($itemid));
+
+            $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Rrcord Updated </div>';
+            redirectHome($theMsg, 'back');
+        } else {
+
+            $theMsg = '<div class="alert alert-danger"This ID is Not Exist</div>';
+            redirectHome($theMsg);
+        }
+
+        echo '</div>';
     }
 
     include $tpl . 'footer.php';
