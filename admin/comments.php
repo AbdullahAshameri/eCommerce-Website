@@ -68,7 +68,7 @@ if (isset($_SESSION['Username'])) {
 
                         if ($row['status'] == 0) {
 
-                            echo " <a href='members.php?do=Approve&comid=" 
+                            echo " <a href='comments.php?do=Approve&comid=" 
                                         . $row['c_id'] . "' 
                                         class='btn btn-info activate'>
                                         <i class='fa  fa-check'></i>Approve</a>";
@@ -200,31 +200,31 @@ if (isset($_SESSION['Username'])) {
         }
 
         echo '</div>';
-    } elseif ($do == 'Activate') {
+    } elseif ($do == 'Approve') {
 
-        echo "<h1 class='text-center'>Activate Member</h1>";
+        echo "<h1 class='text-center'>Approve Comment</h1>";
         echo "<div class='container'>";
 
-        // Check if Get Request userid Is Numeric & Get The Integer Value Of It
+        // Check if Get Request Comid Is Numeric & Get The Integer Value Of It
 
-        $userid = isset($_GET['userid']) && is_numeric($_GET['userid']) ? intval($_GET['userid']) : 0;
+        $comid = isset($_GET['comid']) && is_numeric($_GET['comid']) ? intval($_GET['comid']) : 0;
 
         //Select All Data Depend In This ID
 
-        $check = checkItem('userid', 'users', $userid);
+        $check = checkItem('c_id', 'comments', $comid);
 
         // If There is Such Id Show The Form
         if ($check > 0) {
 
-            $stmt = $con->prepare("UPDATE users SET RegStatus = 1 WHERE UserID = ?");
+            $stmt = $con->prepare("UPDATE comments SET status = 1 WHERE c_id = ?");
 
-            $stmt->execute(array($userid));
+            $stmt->execute(array($comid));
 
-            $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Rrcord Updated </div>';
-            redirectHome($theMsg);
+            $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Rrcord Approved </div>';
+            redirectHome($theMsg, 'back');
         } else {
 
-            $theMsg = '<div class="alert alert-danger"This ID is Not Exist</div>';
+            $theMsg = '<div class="alert alert-danger>"This ID is Not Exist</div>';
             redirectHome($theMsg);
         }
 
