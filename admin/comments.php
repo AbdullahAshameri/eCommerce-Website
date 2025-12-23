@@ -88,12 +88,12 @@ if (isset($_SESSION['Username'])) {
 
         // Check if Get Request userid Is Numeric & Get The Integer Value Of It
 
-        $userid = isset($_GET['userid']) && is_numeric($_GET['userid']) ? intval($_GET['userid']) : 0;
+        $comid = isset($_GET['comid']) && is_numeric($_GET['comid']) ? intval($_GET['comid']) : 0;
 
         //Select All Data Depend In This ID
-        $stmt = $con->prepare("SELECT * FROM users WHERE UserID = ? LIMIT 1");
+        $stmt = $con->prepare("SELECT * FROM comments WHERE c_id = ?");
         // Execute
-        $stmt->execute(array($userid));
+        $stmt->execute(array($comid));
         // Fetch The Data
         $row = $stmt->fetch();
 
@@ -102,45 +102,20 @@ if (isset($_SESSION['Username'])) {
 
         // If There is Such Id Show The Form
         if ($stmt->rowCount() > 0) { ?>
-            <h1 class="text-center">Edit Member</h1>
+            <h1 class="text-center">Edit Comment</h1>
             <div class="container">
 
                 <form class="form-horizontal" action="?do=Update" method="POST">
-                    <input type="hidden" name="userid" value="<?php echo $userid; ?>">
+                    <input type="hidden" name="comid" value="<?php echo $comid; ?>">
 
-                    <!-- Starat Username Field -->
+                    <!-- Starat Comment Field -->
                     <div class="form-group form-group-lg">
-                        <label class="col-sm-2 control-label">Username</label>
+                        <label class="col-sm-2 control-label">Comment</label>
                         <div class="col-sm-10 col-md-6">
-                            <input type="text" name="username" class="form-control" autocomplete="off" value="<?php echo $row['Username'] ?>" required="required" />
+                            <textarea class="form-control" name="comment" id=""><?php echo $row['comment'] ?></textarea>
                         </div>
                     </div>
-                    <!-- End Username Field -->
-                    <!-- Starat Password Field -->
-                    <div class="form-group form-group-lg">
-                        <label class="col-sm-2 control-label">Password</label>
-                        <div class="col-sm-10 col-md-6">
-                            <input type="hidden" name="oldpassword" value="<?php echo $row['Password']; ?>" />
-                            <input type="password" name="newpassword" class="form-control" autocomplete="new-password" placeholder="Leave Blank If You Dont Want To Change" />
-                        </div>
-                    </div>
-                    <!-- End Password Field -->
-                    <!-- Starat Email Field -->
-                    <div class="form-group form-group-lg">
-                        <label class="col-sm-2 control-label">Email</label>
-                        <div class="col-sm-10 col-md-6">
-                            <input type="email" name="email" class="form-control" value="<?php echo $row['Email'] ?>" required="required" />
-                        </div>
-                    </div>
-                    <!-- End Email Field -->
-                    <!-- Starat Full Name Field -->
-                    <div class="form-group form-group-lg">
-                        <label class="col-sm-2 control-label">Full Name</label>
-                        <div class="col-sm-10 col-md-6">
-                            <input type="text" name="full" value="<?php echo $row['FullName'] ?>" class="form-control" required="required" />
-                        </div>
-                    </div>
-                    <!-- End Full Name Field -->
+                    <!-- End Comment Field -->
                     <!-- Starat Submit Field -->
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
@@ -165,65 +140,25 @@ if (isset($_SESSION['Username'])) {
         }
     } elseif ($do == 'Update') { // Update page
 
-        echo "<h1 class='text-center'>Update Member</h1>";
+        echo "<h1 class='text-center'>Update Comment</h1>";
         echo "<div class='container'>";
 
         // $pass = '';
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Get The Variable From The Form
-            $id     = $_POST['userid'];
-            $user   = $_POST['username'];
-            $email  = $_POST['email'];
-            $name   = $_POST['full'];
+            $comid     = $_POST['comid'];
+            $comment   = $_POST['comment'];
 
-            // Password Trick
-            $pass = empty($_POST['newpassword']) ? $_POST['oldpassword'] : sha1($_POST['newpassword']);
+            // Update The Database Whith This info
+            $stmt = $con->prepare("UPDATE comments SET comment = ? WHERE c_id = ?");
+            $stmt->execute(array($comment, $comid));
 
-            // Validate The Form
-            $formErrors = array();
-            if (strlen($user) < 4) {
+            // Echo Seccess Message
+            $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Updated </div>';
 
-                $formErrors[] = 'Username Cant Be Less Than <strong>4 Char</strong>';
-            }
+            redirectHome($theMsg, 'back', 3);
 
-            if (strlen($user) > 20) {
-
-                $formErrors[] = 'Username Cant Be More Than <strong>20 Char</strong>';
-            }
-
-            if (empty($user)) {
-
-                $formErrors[] = 'Username cant Be <strong>Empty</strong>';
-            }
-
-            if (empty($name)) {
-
-                $formErrors[] = 'Full Name Cant be <strong>Empty</strong>';
-            }
-
-            if (empty($email)) {
-
-                $formErrors[] = 'Email Cant Be <strong>Empty</strong>';
-            }
-
-            // Loop Into Error Array And Echo It
-            foreach ($formErrors as $errors) {
-                echo '<div class="alert alert-danger">' . $errors . '</div> <br>';
-            }
-
-            // Update The Database Whith This info Update Operation
-            if (empty($formErrors)) {
-
-                // Update The Database Whith This info
-                $stmt = $con->prepare("UPDATE users SET Username = ?, Email = ?, FullName= ?, Password = ? WHERE UserID = ?");
-                $stmt->execute(array($user, $email, $name, $pass, $id));
-
-                // Echo Seccess Message
-                $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Updated </div>';
-
-                redirectHome($theMsg, 'back', 3);
-            }
         } else {
             echo "<div class='continer'>";
 
@@ -236,23 +171,23 @@ if (isset($_SESSION['Username'])) {
         echo "</div>";
     } elseif ($do == 'Delete') { // Delete Member Page
 
-        echo "<h1 class='text-center'>Delete Member</h1>";
+        echo "<h1 class='text-center'>Delete Comment</h1>";
         echo "<div class='container'>";
 
         // Check if Get Request userid Is Numeric & Get The Integer Value Of It
 
-        $userid = isset($_GET['userid']) && is_numeric($_GET['userid']) ? intval($_GET['userid']) : 0;
+        $comid = isset($_GET['comid']) && is_numeric($_GET['comid']) ? intval($_GET['comid']) : 0;
 
         //Select All Data Depend In This ID
 
-        $check = checkItem('userid', 'users', $userid);
+        $check = checkItem('c_id', 'comments', $comid);
 
         // If There is Such Id Show The Form
         if ($check > 0) {
 
-            $stmt = $con->prepare("DELETE FROM users WHERE UserID = :zuser");
+            $stmt = $con->prepare("DELETE FROM comments WHERE c_id = :zcom");
 
-            $stmt->bindParam(":zuser", $userid);
+            $stmt->bindParam(":zcom", $comid);
 
             $stmt->execute();
 
