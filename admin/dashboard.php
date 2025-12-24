@@ -53,6 +53,7 @@ if (isset($_SESSION['Username'])) {
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-3">
                     <div class="stat st-coments">
                         <i class="fa fa-comments"></i>
@@ -68,11 +69,12 @@ if (isset($_SESSION['Username'])) {
     <div class="latest">
         <div class="container">
             <div class="row">
+                <!-- Start Latest Users -->
                 <div class="col-sm-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-users">
-                            </i>Latest <?php echo $numUsers ?>Registerd Users
+                            </i> Latest <?php echo $numUsers ?> Registerd Users
                             <span class="toggle-info pull-right">
                                 <i class="fa fa-plus fa-lg"></i>
 
@@ -102,10 +104,12 @@ if (isset($_SESSION['Username'])) {
                         </div>
                     </div>
                 </div>
+                <!-- End Latest Users -->
+                <!-- Start Latest Items -->
                 <div class="col-sm-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-tag"></i>Latest Items
+                            <i class="fa fa-tag"></i> Latest Items
                             <span class="toggle-info pull-right">
                                 <i class="fa fa-plus fa-lg"></i>
 
@@ -136,7 +140,47 @@ if (isset($_SESSION['Username'])) {
                         </div>
                     </div>
                 </div>
+                <!-- End Latest Items -->
             </div>
+            <!-- Start Latest Comments -->
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-comments-o">
+                            </i> Latest Comments
+                            <span class="toggle-info pull-right">
+                                <i class="fa fa-plus fa-lg"></i>
+
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <?php
+                                $stmt = $con->prepare("SELECT
+                                                            comments.*, users.Username AS Member
+                                                        FROM
+                                                            comments
+                                                        INNER JOIN
+                                                            users
+                                                        ON
+                                                            users.UserID = comments.user_id");
+                                $stmt->execute();
+                                $comments = $stmt->fetchAll();
+
+                                foreach($comments as $comment) {
+
+                                    echo '<div class ="comment-box">';
+                                        echo '<span class="member-n">' . $comment['Member'] . '</span>';
+                                        echo '<p class="member-c">' . $comment['comment'] . '</p>';
+                                    echo '</div>';
+
+                                }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Latest Comments -->
         </div>
     </div>
 
