@@ -69,11 +69,11 @@ if (isset($_SESSION['Username'])) {
                         echo "<td>
                                 <a href='items.php?do=Edit&itemid=" . $item['item_ID'] . "' class='btn btn-success'><i class='fa fa-edit'></i>Edit</a>
                                 <a href='items.php?do=Delete&itemid=" . $item['item_ID'] . "' class='btn btn-danger confirm'><i class='fa  fa-close'></i>Delete</a> ";
-                                if ($item['Approve'] == 0) {
-                                    echo "<a href='items.php?do=Approve&itemid=" . $item['item_ID'] . "'
+                        if ($item['Approve'] == 0) {
+                            echo "<a href='items.php?do=Approve&itemid=" . $item['item_ID'] . "'
                                     class='btn btn-info activate'>
                                     <i class='fa fa-check'></i> Activate</a>";
-                                }
+                        }
 
                         // if ($item['RegStatus'] == 0) {
 
@@ -312,7 +312,7 @@ if (isset($_SESSION['Username'])) {
             <h1 class="text-center">Edite Item</h1>
             <div class="container">
                 <form class="form-horizontal" action="?do=Update" method="POST">
-                    <input type="hidden" name="itemid" value="<?php echo $itemid ?>"/>
+                    <input type="hidden" name="itemid" value="<?php echo $itemid ?>" />
                     <!-- Starat Name Field -->
                     <div class="form-group form-group-lg">
                         <label class="col-sm-2 control-label">Name</label>
@@ -351,17 +351,26 @@ if (isset($_SESSION['Username'])) {
                     <div class="col-sm-10 col-md-6">
                         <input type="text" name="Image" class="form-control" required="required" placeholder="Image Of The Item" />
                     </div>
-                </div> -->
+                    </div> -->
                     <!-- End Image Field -->
                     <!-- Starat Status Field -->
                     <div class="form-group form-group-lg">
                         <label class="col-sm-2 control-label">Status</label>
                         <div class="col-sm-10 col-md-6">
                             <select class="" name="status" id="">
-                                <option value="1" <?php if ($item['Status'] == 1 ) { echo 'selected'; } ?>>New</option>
-                                <option value="2" <?php if ($item['Status'] == 2 ) { echo 'selected'; } ?>>Link New</Link></option>
-                                <option value="3" <?php if ($item['Status'] == 3 ) { echo 'selected'; } ?>>Used</option>
-                                <option value="4" <?php if ($item['Status'] == 4 ) { echo 'selected'; } ?>>Old</option>
+                                <option value="1" <?php if ($item['Status'] == 1) {
+                                                        echo 'selected';
+                                                    } ?>>New</option>
+                                <option value="2" <?php if ($item['Status'] == 2) {
+                                                        echo 'selected';
+                                                    } ?>>Link New</Link>
+                                </option>
+                                <option value="3" <?php if ($item['Status'] == 3) {
+                                                        echo 'selected';
+                                                    } ?>>Used</option>
+                                <option value="4" <?php if ($item['Status'] == 4) {
+                                                        echo 'selected';
+                                                    } ?>>Old</option>
                             </select>
                         </div>
                     </div>
@@ -377,8 +386,10 @@ if (isset($_SESSION['Username'])) {
                                 $users = $stmt->fetchAll();
                                 foreach ($users as $user) {
                                     echo "<option value='" . $user['UserID'] . "'";
-                                    if ($item['Member_id'] == $user['UserID'] ) { echo 'selected'; } 
-                                    echo">" . $user['Username'] . "</option>";
+                                    if ($item['Member_id'] == $user['UserID']) {
+                                        echo 'selected';
+                                    }
+                                    echo ">" . $user['Username'] . "</option>";
                                 }
                                 ?>
                             </select>
@@ -397,7 +408,9 @@ if (isset($_SESSION['Username'])) {
                                 foreach ($cats as $cat) {
 
                                     echo "<option value='" . $cat['ID'] . "'";
-                                    if ($item['Cat_ID'] == $cat['ID'] ) { echo 'selected'; }
+                                    if ($item['Cat_ID'] == $cat['ID']) {
+                                        echo 'selected';
+                                    }
                                     echo ">" . $cat['Name'] . "</option>";
                                 }
                                 ?>
@@ -413,9 +426,65 @@ if (isset($_SESSION['Username'])) {
                     </div>
                     <!-- End Submit Field -->
                 </form>
+                <?php
+                // Select All Users Except Admin
+                $stmt = $con->prepare("SELECT
+                    comments.*, users.Username 
+                FROM
+                    comments
+                INNER JOIN
+                    users
+                ON
+                    users.UserID = comments.user_id
+                WHERE
+                    item_id = ?");
+
+                // Execute The Statment
+                $stmt->execute(array($itemid));
+
+                // Assign To Variable
+                $rows = $stmt->fetchAll();
+
+                if(!empty($rows)) {
+                    ?>
+                    <h1 class="text-center"><?php echo $item['Name'] ?> Comments</h1>
+                    <div class="table-responsive">
+                        <table class="main-table text-center table">
+                            <tr>
+                                <td>Comment</td>
+                                <td>User Name</td>
+                                <td>Added Date</td>
+                                <td>Control</td>
+                            </tr>
+                            <?php
+                            foreach ($rows as $row) {
+                                echo "<tr>";
+                                echo "<td>" . $row['comment'] . "</td>";
+                                echo "<td>" . $row['Username'] . "</td>";
+                                echo "<td>" . $row['comment_date'] . "</td>";
+                                echo "<td>
+                                <a href='comments.php?do=Edit&comid=" . $row['c_id'] . "' class='btn btn-success'><i class='fa fa-edit'></i>Edit</a>
+                                <a href='comments.php?do=Delete&comid=" . $row['c_id'] . "' class='btn btn-danger confirm'><i class='fa  fa-close'></i>Delete</a>";
+
+                                if ($row['status'] == 0) {
+
+                                    echo " <a href='comments.php?do=Approve&comid="
+                                        . $row['c_id'] . "' 
+                                        class='btn btn-info activate'>
+                                        <i class='fa  fa-check'></i>Approve</a>";
+                                }
+
+                                echo "</td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                        </table>
+                    </div>
+                    <?php 
+                } ?>
             </div>
 
-            <?php
+<?php
             // If There's No Such ID Show Error Message
         } else {
 
@@ -516,7 +585,6 @@ if (isset($_SESSION['Username'])) {
         }
 
         echo "</div>";
-        
     } elseif ($do == 'Delete') {
 
         echo "<h1 class='text-center'>Delete Item</h1>";

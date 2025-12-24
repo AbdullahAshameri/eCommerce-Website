@@ -59,8 +59,8 @@ if (isset($_SESSION['Username'])) {
                         echo "<tr>";
                         echo "<td>" . $row['c_id'] . "</td>";
                         echo "<td>" . $row['comment'] . "</td>";
-                        echo "<td>" . $row['item_id'] . "</td>";
-                        echo "<td>" . $row['user_id'] . "</td>";
+                        echo "<td>" . $row['Item_Name'] . "</td>";
+                        echo "<td>" . $row['Member'] . "</td>";
                         echo "<td>" . $row['comment_date'] . "</td>";
                         echo "<td>
                                 <a href='comments.php?do=Edit&comid=" . $row['c_id'] . "' class='btn btn-success'><i class='fa fa-edit'></i>Edit</a>
