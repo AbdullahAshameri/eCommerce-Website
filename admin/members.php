@@ -27,7 +27,7 @@ if (isset($_SESSION['Username'])) {
         }
 
         // Select All Users Except Admin
-        $stmt = $con->prepare("SELECT * FROM users WHERE GroupID != 1 $query");
+        $stmt = $con->prepare("SELECT * FROM users WHERE GroupID != 1 $query ORDER BY UserID  DESC");
 
         // Execute The Statment
         $stmt->execute();
@@ -367,6 +367,8 @@ if (isset($_SESSION['Username'])) {
             // Update The Database Whith This info Update Operation
             if (empty($formErrors)) {
 
+                
+                /*
                 // Update The Database Whith This info
                 $stmt = $con->prepare("UPDATE users SET Username = ?, Email = ?, FullName= ?, Password = ? WHERE UserID = ?");
                 $stmt->execute(array($user, $email, $name, $pass, $id));
@@ -381,6 +383,7 @@ if (isset($_SESSION['Username'])) {
 
             $theMsg = '<div class="alert alert-danger">Sorry You Cant <strong>Browse</strong> This Page Directry';
             redirectHome($theMsg, 'back');
+            */
 
             echo "</div>";
         }

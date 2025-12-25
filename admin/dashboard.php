@@ -16,8 +16,8 @@ if (isset($_SESSION['Username'])) {
     $numItems = 6; // Number of The Latest Item
     $latestItems = getLatest("*", 'items', 'item_ID', $numItems); // Latest Item Array
 
-    // $numCom = 6;
-    // $comments = getLatest("*", 'comments', 'c_id', $numCom); // Latest Item Array
+    $numComments = 4;
+    $comments = getLatest("*", 'comments', 'c_id', $numComments); // Latest Item Array
 
 ?>
     <div class="home-stats">
@@ -118,7 +118,7 @@ if (isset($_SESSION['Username'])) {
                 <div class="col-sm-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-tag"></i> Latest Items
+                            <i class="fa fa-tag"></i> Latest <?php echo $numItems; ?> Items
                             <span class="toggle-info pull-right">
                                 <i class="fa fa-plus fa-lg"></i>
 
@@ -161,7 +161,7 @@ if (isset($_SESSION['Username'])) {
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-comments-o">
-                            </i> Latest Comments
+                            </i> Latest <?php echo $numComments; ?> Comments
                             <span class="toggle-info pull-right">
                                 <i class="fa fa-plus fa-lg"></i>
 
@@ -176,7 +176,10 @@ if (isset($_SESSION['Username'])) {
                                                         INNER JOIN
                                                             users
                                                         ON
-                                                            users.UserID = comments.user_id");
+                                                            users.UserID = comments.user_id
+                                                        ORDER BY 
+                                                            c_id DESC
+                                                        LIMIT $numComments");
                                 $stmt->execute();
                                 $comments = $stmt->fetchAll();
 

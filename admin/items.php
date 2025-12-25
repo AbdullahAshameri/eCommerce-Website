@@ -34,7 +34,9 @@ if (isset($_SESSION['Username'])) {
                                 INNER JOIN 
                                 users 
                                 ON 
-                                users.UserID = items.Member_id");
+                                users.UserID = items.Member_id
+                                ORDER BY 
+                                    item_ID DESC");
 
         // Execute The Statment
         $stmt->execute();
