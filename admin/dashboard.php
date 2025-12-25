@@ -11,7 +11,7 @@ if (isset($_SESSION['Username'])) {
 
     // Start Dashboard page
     $numUsers = 6;
-    $latestUsers = getLatest("*", "users", "UserID", $numUsers);
+    $latestUsers = getLatest("*", "users", "UserID", "GroupID",$numUsers);
 
     $numItems = 6; // Number of The Latest Item
     $latestItems = getLatest("*", 'items', 'item_ID', $numItems); // Latest Item Array

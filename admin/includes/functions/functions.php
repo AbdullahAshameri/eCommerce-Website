@@ -97,7 +97,7 @@ function countItems($item, $table) {
 }
 
 /*
-** Get Latest Records Function V1.0
+** Get Latest Records Function V2.0
 ** Function To Get Latest Item From Database [ Users, Items, Comments ]
 ** $select = Field To Select
 ** $table = The Table To Choose From
@@ -105,11 +105,24 @@ function countItems($item, $table) {
 ** $limit = Number Of Records To Get
 */
 
-function getLatest($select, $table, $order, $limit = 5) {
+// function getLatest($select, $table, $order, $limit = 5) {
+
+//     global $con;
+
+//     $getStmt = $con->prepare("SELECT $select FROM $table ORDER BY $order DESC LIMIT $limit");
+
+//     $getStmt->execute();
+
+//     $rows = $getStmt->fetchAll();
+
+//     return  $rows;
+// }
+
+function getLatest($select, $table, $order, $where = NULL, $limit = 5) {
 
     global $con;
 
-    $getStmt = $con->prepare("SELECT $select FROM $table ORDER BY $order DESC LIMIT $limit");
+    $getStmt = $con->prepare("SELECT $select FROM $table WHERE $where != 1 ORDER BY $order DESC LIMIT $limit");
 
     $getStmt->execute();
 
