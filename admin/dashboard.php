@@ -30,7 +30,7 @@ if (isset($_SESSION['Username'])) {
                         <div class="info">
                             Total Members
                             <span>
-                                <a href="members.php"><?php echo countItems('UserID', 'users') ?></a>
+                                <a href="members.php"><?php echo countItems('UserID', 'users')  ?></a>
                             </span>
                         </div>
                     </div>
@@ -146,7 +146,7 @@ if (isset($_SESSION['Username'])) {
                                     echo '</li>';
                                 }
                                 } else {
-                                    echo 'There\'S No Record To Show';
+                                    echo 'There\'s No Record To Show';
                                 }
                                 ?>
                             </ul>
@@ -183,24 +183,13 @@ if (isset($_SESSION['Username'])) {
                                 if (!empty($comments)) {
                                     foreach ($comments as $comment) {
                                         echo '<div class="comment-box">';
-                                            echo '<span class="member-n">' . htmlspecialchars($comment['Member']) . '</span>';
+                                            echo '<span class="member-n">'; 
+                                                echo '<a 
+                                                        href="members.php?do=Edit&userid=' . $comment["user_id"] .'">'; 
+                                                    echo htmlspecialchars($comment['Member']);
+                                                echo '</a>';
+                                            echo '</span>';
                                             echo '<p class="member-c">' . htmlspecialchars($comment['comment']) . '</p>';
-                                            // echo '<a href="comments.php?do=Edit&comid=' . $comment['c_id'] . '">';
-                                            // echo '<span class="btn btn-success pull-right">';
-                                            // echo '<i class="fa fa-edit"></i> Edit';
-
-                                            // if ($comment['status'] == 0) {
-                                            //     echo " 
-                                            //         <span 
-                                            //             onclick=\"window.location.href='comments.php?do=Approve&comid=" . $comment['c_id'] . "'\"
-                                            //             class='btn btn-info pull-right activate'
-                                            //             style='margin-left:5px; cursor:pointer;'>
-                                            //             <i class='fa fa-check'></i> Approve
-                                            //         </span>";
-                                            // }
-
-                                            // echo '</span>';
-                                            // echo '</a>';
                                         echo '</div>';
                                     }
                                 } else {

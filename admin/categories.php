@@ -40,8 +40,11 @@ if (isset($_SESSION['Username'])) {
 
         $stmt2->execute();
 
-        $cats = $stmt2->fetchAll(); ?>
-
+        $cats = $stmt2->fetchAll(); 
+        
+        if (!empty($cats)) {
+        ?>
+    
         <h1 class="text-center">Manage Category</h1>
         <div class="container categories">
             <div class="panel panel-default">
@@ -107,6 +110,15 @@ if (isset($_SESSION['Username'])) {
             </div>
             <a class="add-category btn btn-primary" href="categories.php?do=Add"><i class="fa fa-plus"></i>Add New Category</a>
         </div>
+        <?php
+        } else {
+            echo '<div class="container">';
+                echo '<div class="nice-message">There\'s No Items To Show</div>';
+                echo '<a href="categories.php?do=Add" class="btn btn-primary">
+                        <i class="fa fa-plus"> Add New Category</i>
+                     </a>';
+            echo '</div>';
+        }?>
     <?php
     } elseif ($do == 'Add') { ?>
 

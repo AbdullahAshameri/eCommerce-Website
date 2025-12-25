@@ -90,7 +90,6 @@ function countItems($item, $table) {
     global $con;
 
     $stmt2 = $con->prepare("SELECT COUNT($item) FROM $table");
-
     $stmt2->execute();
 
     return $stmt2->fetchColumn();
@@ -103,6 +102,7 @@ function countItems($item, $table) {
 ** $table = The Table To Choose From
 ** $order = The Desc Ordering
 ** $limit = Number Of Records To Get
+** $where = (condation) Like where 'GroupID' != 1
 */
 
 // function getLatest($select, $table, $order, $limit = 5) {

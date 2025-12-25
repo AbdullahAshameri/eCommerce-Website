@@ -40,8 +40,10 @@ if (isset($_SESSION['Username'])) {
         $stmt->execute();
 
         // Assign To Variable
-        $rows = $stmt->fetchAll();
-?>
+        $comments = $stmt->fetchAll();
+
+        if (!empty($comments)) {
+        ?>
         <h1 class="text-center">Manage Comments</h1>
         <div class="container">
             <div class="table-responsive">
@@ -55,21 +57,21 @@ if (isset($_SESSION['Username'])) {
                         <td>Control</td>
                     </tr>
                     <?php
-                    foreach ($rows as $row) {
+                    foreach ($comments as $comment) {
                         echo "<tr>";
-                        echo "<td>" . $row['c_id'] . "</td>";
-                        echo "<td>" . $row['comment'] . "</td>";
-                        echo "<td>" . $row['Item_Name'] . "</td>";
-                        echo "<td>" . $row['Member'] . "</td>";
-                        echo "<td>" . $row['comment_date'] . "</td>";
+                        echo "<td>" . $comment['c_id'] . "</td>";
+                        echo "<td>" . $comment['comment'] . "</td>";
+                        echo "<td>" . $comment['Item_Name'] . "</td>";
+                        echo "<td>" . $comment['Member'] . "</td>";
+                        echo "<td>" . $comment['comment_date'] . "</td>";
                         echo "<td>
-                                <a href='comments.php?do=Edit&comid=" . $row['c_id'] . "' class='btn btn-success'><i class='fa fa-edit'></i>Edit</a>
-                                <a href='comments.php?do=Delete&comid=" . $row['c_id'] . "' class='btn btn-danger confirm'><i class='fa  fa-close'></i>Delete</a>";
+                                <a href='comments.php?do=Edit&comid=" . $comment['c_id'] . "' class='btn btn-success'><i class='fa fa-edit'></i>Edit</a>
+                                <a href='comments.php?do=Delete&comid=" . $comment['c_id'] . "' class='btn btn-danger confirm'><i class='fa  fa-close'></i>Delete</a>";
 
-                        if ($row['status'] == 0) {
+                        if ($comment['status'] == 0) {
 
                             echo " <a href='comments.php?do=Approve&comid=" 
-                                        . $row['c_id'] . "' 
+                                        . $comment['c_id'] . "' 
                                         class='btn btn-info activate'>
                                         <i class='fa  fa-check'></i>Approve</a>";
                         }
@@ -81,6 +83,11 @@ if (isset($_SESSION['Username'])) {
                 </table>
             </div>
         </div>
+        <?php
+        } else {echo '<div class="container">';
+                    echo '<div class="nice-message">There\'s No Comments To Show</div>';
+            echo '</div>';
+        }?>
 
     <?php
 

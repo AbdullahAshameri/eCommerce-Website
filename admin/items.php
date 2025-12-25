@@ -41,7 +41,9 @@ if (isset($_SESSION['Username'])) {
 
         // Assign To Variable
         $items = $stmt->fetchAll();
-?>
+
+        if (!empty($items)) {
+        ?>
         <h1 class="text-center">Manage Items</h1>
         <div class="container">
             <div class="table-responsive">
@@ -88,6 +90,15 @@ if (isset($_SESSION['Username'])) {
             </div>
             <a href="items.php?do=Add" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Add New Item</a>
         </div>
+        <?php
+        } else {
+            echo '<div class="container">';
+                echo '<div class="nice-message">There\'s No Message To Show.</div>';
+                echo '<a href="items.php?do=Add" class="btn btn-sm btn-primary">
+                            <i class="fa fa-plus"> New Item </i>
+                            </a>';
+            echo '</div>;';
+        }?>
 
     <?php
 

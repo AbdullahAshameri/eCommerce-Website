@@ -80,6 +80,10 @@ if (isset($_SESSION['Username'])) {
         } else {
             echo '<div class="container">';
                 echo '<div class="nice-message">There\'s No Record To Show</div>';
+                echo '<a href="members.php?do=Add" class="btn btn-sm btn-primary">
+                                <i class="fa fa-plus"> New Item </i>
+                                </a>';
+            echo '</div>;';
             echo '</div>';
         }?>
     <?php  
