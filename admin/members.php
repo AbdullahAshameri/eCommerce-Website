@@ -367,23 +367,41 @@ if (isset($_SESSION['Username'])) {
             // Update The Database Whith This info Update Operation
             if (empty($formErrors)) {
 
-                
-                /*
-                // Update The Database Whith This info
-                $stmt = $con->prepare("UPDATE users SET Username = ?, Email = ?, FullName= ?, Password = ? WHERE UserID = ?");
-                $stmt->execute(array($user, $email, $name, $pass, $id));
+                $stmt2 = $con->prepare("SELECT 
+                                            *
+                                        FROM
+                                            users
+                                        WHERE
+                                            Username = ?
+                                        AND
+                                            UserID != ?");
+                $stmt2->execute(array($user, $id));
 
-                // Echo Seccess Message
-                $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Updated </div>';
+                $count = $stmt2->rowCount();
 
-                redirectHome($theMsg, 'back', 3);
+                if($count == 1) {
+                    // echo 'This Item IS Exist';
+                    $theMsg = "<div class='nice-message'>". 'Sorry This User Is Exist</div>';
+
+                    redirectHome($theMsg, 'back');
+                } else {
+
+                    // Update The Database Whith This info
+                    $stmt = $con->prepare("UPDATE users SET Username = ?, Email = ?, FullName= ?, Password = ? WHERE UserID = ?");
+                    $stmt->execute(array($user, $email, $name, $pass, $id));
+
+                    // Echo Seccess Message
+                    $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . 'Record Updated </div>';
+
+                    redirectHome($theMsg, 'back');
+                }
             }
         } else {
             echo "<div class='continer'>";
 
             $theMsg = '<div class="alert alert-danger">Sorry You Cant <strong>Browse</strong> This Page Directry';
             redirectHome($theMsg, 'back');
-            */
+            
 
             echo "</div>";
         }
