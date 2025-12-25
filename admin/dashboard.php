@@ -16,6 +16,9 @@ if (isset($_SESSION['Username'])) {
     $numItems = 6; // Number of The Latest Item
     $latestItems = getLatest("*", 'items', 'item_ID', $numItems); // Latest Item Array
 
+    // $numCom = 6;
+    // $comments = getLatest("*", 'comments', 'c_id', $numCom); // Latest Item Array
+
 ?>
     <div class="home-stats">
         <div class="container text-center">
@@ -59,7 +62,9 @@ if (isset($_SESSION['Username'])) {
                         <i class="fa fa-comments"></i>
                         <div class="info">
                             Total Coments
-                            <span>0</span>
+                            <span>
+                                <a href="comments.php"><?php echo countItems('c_id', 'comments')?></a>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -83,6 +88,7 @@ if (isset($_SESSION['Username'])) {
                         <div class="panel-body">
                             <ul class="list-unstyled latest-users">
                                 <?php
+                                if(!empty($latestUsers)){
                                 foreach ($latestUsers as $user) {
 
                                     echo '<li>';
@@ -98,6 +104,9 @@ if (isset($_SESSION['Username'])) {
                                     }
                                     echo '</span>';
                                     echo '</a></li>';
+                                }
+                                } else {
+                                    echo 'There\'S No Record To Show';
                                 }
                                 ?>
                             </ul>
@@ -119,21 +128,25 @@ if (isset($_SESSION['Username'])) {
                         <div class="panel-body">
                             <ul class="list-unstyled latest-users">
                                 <?php
+                                if(!empty($latestItems)) {
                                 foreach ($latestItems as $item) {
                                     echo '<li>';
                                     echo $item['Name'];
                                     echo '<a href="items.php?do=Edit&itemid=' . $item['item_ID'] . '">';
                                     echo '<span class="btn btn-success pull-right">';
-                                    echo '<i class="fa fa-edit"></i>Edit';
-                                    if ($item['Approve'] == 0) {
-                                        echo " <a 
-                                                            href='items.php?do=Approve&itemid=" . $item['item_ID'] . "' 
-                                                            class='btn btn-info pull-right activate'>
-                                                            <i class='fa  fa-check'></i> Approve</a>";
-                                    }
+                                        echo '<i class="fa fa-edit"></i>Edit';
+                                        if ($item['Approve'] == 0) {
+                                            echo " <a 
+                                                                href='items.php?do=Approve&itemid=" . $item['item_ID'] . "' 
+                                                                class='btn btn-info pull-right activate'>
+                                                                <i class='fa  fa-check'></i> Approve</a>";
+                                        }
                                     echo '</span>';
                                     echo '</a>';
                                     echo '</li>';
+                                }
+                                } else {
+                                    echo 'There\'S No Record To Show';
                                 }
                                 ?>
                             </ul>
@@ -167,13 +180,31 @@ if (isset($_SESSION['Username'])) {
                                 $stmt->execute();
                                 $comments = $stmt->fetchAll();
 
-                                foreach($comments as $comment) {
+                                if (!empty($comments)) {
+                                    foreach ($comments as $comment) {
+                                        echo '<div class="comment-box">';
+                                            echo '<span class="member-n">' . htmlspecialchars($comment['Member']) . '</span>';
+                                            echo '<p class="member-c">' . htmlspecialchars($comment['comment']) . '</p>';
+                                            // echo '<a href="comments.php?do=Edit&comid=' . $comment['c_id'] . '">';
+                                            // echo '<span class="btn btn-success pull-right">';
+                                            // echo '<i class="fa fa-edit"></i> Edit';
 
-                                    echo '<div class ="comment-box">';
-                                        echo '<span class="member-n">' . $comment['Member'] . '</span>';
-                                        echo '<p class="member-c">' . $comment['comment'] . '</p>';
-                                    echo '</div>';
+                                            // if ($comment['status'] == 0) {
+                                            //     echo " 
+                                            //         <span 
+                                            //             onclick=\"window.location.href='comments.php?do=Approve&comid=" . $comment['c_id'] . "'\"
+                                            //             class='btn btn-info pull-right activate'
+                                            //             style='margin-left:5px; cursor:pointer;'>
+                                            //             <i class='fa fa-check'></i> Approve
+                                            //         </span>";
+                                            // }
 
+                                            // echo '</span>';
+                                            // echo '</a>';
+                                        echo '</div>';
+                                    }
+                                } else {
+                                    echo 'There\'s No Record To Show';
                                 }
                             ?>
                         </div>
