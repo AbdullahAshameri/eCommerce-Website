@@ -1,5 +1,25 @@
 <?php
     /*
+    ** Get Records Function V2.0
+    ** Function To Get Categories From Database
+    */
+
+    function getCat()
+    {
+
+        global $con;
+
+        $getCat = $con->prepare("SELECT * FROM categories ORDER BY ID ASC");
+
+        $getCat->execute();
+
+        $cats = $getCat->fetchAll();
+
+        return  $cats;
+    }
+
+    //============== Backend ===========
+    /*
     ** Title Function v1.0
     ** Title Function That Echo The Page Title In Case The Page
     ** Has The Variable $pageTitle And Echo Defult Title For Othe Pages
@@ -104,19 +124,6 @@ function countItems($item, $table) {
 ** $limit = Number Of Records To Get
 ** $where = (condation) Like where 'GroupID' != 1
 */
-
-// function getLatest($select, $table, $order, $limit = 5) {
-
-//     global $con;
-
-//     $getStmt = $con->prepare("SELECT $select FROM $table ORDER BY $order DESC LIMIT $limit");
-
-//     $getStmt->execute();
-
-//     $rows = $getStmt->fetchAll();
-
-//     return  $rows;
-// }
 
 function getLatest($select, $table, $order, $where = NULL, $limit = 5) {
 
