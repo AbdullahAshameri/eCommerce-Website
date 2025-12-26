@@ -29,7 +29,19 @@
 
         global $con;
 
-        $getItems = $con->prepare("SELECT * FROM items WHERE Cat_ID =? ORDER BY item_ID DESC");
+        $getItems = $con->prepare("SELECT 
+                                        *, users.Username 
+                                    FROM 
+                                        items 
+                                    INNER JOIN
+                                        users
+                                    ON
+                                        users.UserID = items.Member_id
+                                    WHERE 
+                                        Cat_ID =? 
+                                    ORDER BY 
+                                        item_ID 
+                                    DESC");
 
         $getItems->execute(array($CatID));
 

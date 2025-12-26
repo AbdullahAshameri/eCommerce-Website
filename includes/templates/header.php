@@ -6,11 +6,13 @@
         <title><?php echo getTitle() ?></title>
         <link rel="stylesheet" href="<?php echo $css; ?>bootstrap.min.css" />
         <link rel="stylesheet" href="<?php echo $css; ?>font-awesome.min.css" />
-        <link rel="stylesheet" href="<?php echo $css; ?>backend.css" />
+        <link rel="stylesheet" href="<?php echo $css; ?>front.css" />
     </head>
     <body>
     <div class="upper-bar">
-        Upper Bar
+        <div class="container">
+            upper Bar
+        </div>
     </div>
     <nav class="navbar navbar-inverse">
         <div class="container">
