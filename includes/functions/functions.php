@@ -1,6 +1,6 @@
 <?php
     /*
-    ** Get Records Function V2.0
+    ** Get Categories Function V2.0
     ** Function To Get Categories From Database
     */
 
@@ -16,6 +16,26 @@
         $cats = $getCat->fetchAll();
 
         return  $cats;
+    }
+
+
+    /*
+    ** Get Items Function V2.0
+    ** Function To Get Items From Database
+    */
+
+    function getItem($CatID)
+    {
+
+        global $con;
+
+        $getItems = $con->prepare("SELECT * FROM items WHERE Cat_ID =? ORDER BY item_ID DESC");
+
+        $getItems->execute(array($CatID));
+
+        $items = $getItems->fetchAll();
+
+        return  $items;
     }
 
     //============== Backend ===========

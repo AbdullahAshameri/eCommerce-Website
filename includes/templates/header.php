@@ -28,7 +28,11 @@
                 <ul class="nav navbar-nav navbar-right">
                     <?php
                     foreach (getCat() as $cat) {
-                        echo '<li><a href="categories.php?pageid='. $cat['ID'] .'">'. $cat['Name'] . '</a></li>';
+                        echo 
+                        '<li>
+                        <a href="categories.php?pageid='. $cat['ID'] . '&pagename=' . str_replace(' ', '-', $cat['Name']) .'">'
+                            . $cat['Name'] . 
+                        '</a></li>';
                     }
                     ?>
                 </ul>
